@@ -66,7 +66,7 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
     for (
       let i = horarios.horaInicio;
       i < horarios.horaFim;
-      i += horarios.intervalo + 50
+      i += horarios.intervalo 
     ) {
       console.log(i);
     }
