@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teste barbearia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <header class="container">
+    <div class="header-menu">
+      <div class="imagem-logo">
+        <a href="/logado"><img src="IMG/Captura de tela 2024-09-02 141005 1LOGO.svg" alt=""></a>
+      </div>
+      <div class="menu-barber">
+        <ul>
+          <li><a href="/agendar">Agendar</a></li>
+          <li><a href="/agendamentos">Agendamentos</a></li>
+          <li><a class="sair" href="/logout">Sair</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <main class="bg-servicos">
+    <section class="servicos container">
+      <div>
+        <h1>Conheça os nossos serviços</h1>
+      </div>
+      <div class="conteudo-servicos">
+        <ul>
+          <li>
+            <h2>Corte
+            </h2>
+            <p>Corte de cabelo completo com tesoura, máquina e navalha.</p>
+            <div class="pagamento">
+              <h3 class="reservar"><button class="botao-reserva" data-servico="Corte" data-horaServico="40">Reservar</button></h3>
+              <div class="valor-hora">
+                <h4 class="valor">R$35 </h4>
+                <h5>40min</h5>
+              </div>
+            </div>
+          </li>
+          <li>
+            <h2>Corte + barba
+            </h2>
+            <p>Corte de cabelo completo com tesoura, máquina e navalha.</p>
+            <div class="pagamento">
+              <h3 class="reservar"><button class="botao-reserva" data-servico="Corte e Barba" data-horaServico="40">Reservar</button></h3>
+              <div class="valor-hora">
+                <h4 class="valor">R$35 </h4>
+                <h5>40min</h5>
+              </div>
+          </li>
+          <li>
+            <h2>barba + sobrancelha
+            </h2>
+            <p>Corte de cabelo completo com tesoura, máquina e navalha.</p>
+            <div class="pagamento">
+              <h3 class="reservar"><button class="botao-reserva" data-servico="Corte e Sobrancelha" data-horaServico="40">Reservar</button></h3>
+              <div class="valor-hora">
+                <h4 class="valor">R$35 </h4>
+                <h5>40min</h5>
+              </div>
+          </li>
+          <li>
+            <h2>Pezinho
+            </h2>
+            <p>Corte de cabelo completo com tesoura, máquina e navalha.</p>
+            <div class="pagamento">
+              <h3 class="reservar"><button class="botao-reserva" data-servico="Pezinho" data-horaServico="40">Reservar</button></h3>
+              <div class="valor-hora">
+                <h4 class="valor">R$35 </h4>
+                <h5>40min</h5>
+              </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-bg">
+    <div>
+      <h1>© 2015 Barbearia Lipe Cortes LTDA. CNPJ: 12.456.789/0001-07</h1>
+    </div>
+  </footer>
+
+</body>
+<script src="logado.js"></script>
+
+</html>

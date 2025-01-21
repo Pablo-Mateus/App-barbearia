@@ -1,0 +1,159 @@
+.container {
+  max-width: 1200px;
+  padding: 30px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: #3c99d2;
+}
+
+h1,
+p,
+ul,
+li,
+img,
+body,
+h3 {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  text-decoration: none;
+}
+
+.menu-barber ul {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+
+.menu-barber ul li {
+  font-family: Arial;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  background-color: #0b2230;
+  border-radius: 5px;
+}
+
+.menu-barber ul li a {
+  padding: 5px;
+}
+
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e577a;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.imagem-logo img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 3px solid #49b4f5;
+}
+
+.bg-servicos {
+  background-color: #ffffff;
+}
+
+.servicos {
+  text-align: center;
+}
+
+.servicos h1 {
+  font-family: Arial;
+  font-size: 3rem;
+}
+
+.conteudo-servicos ul li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: start;
+  justify-items: space-between;
+  margin-top: 60px;
+  font-family: Arial;
+  font-size: 1.2rem;
+}
+
+.conteudo-servicos h2 {
+  font-weight: 900;
+  grid-column: span 2;
+}
+
+.conteudo-servicos ul li p {
+  grid-row: 2;
+  font-family: "Roboto";
+  font-weight: 300;
+}
+
+/* .conteudo-servicos ul li h2::after {
+  content: "";
+  display: block;
+  width: 100%;;
+  height: 2px;
+  background: #000;
+} */
+
+.conteudo-servicos ul li h2 {
+  border-bottom: 1px solid black;
+}
+
+.pagamento {
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 30px;
+}
+
+.botao-reserva {
+  background-color: #163d54;
+  color: white;
+  border-radius: 6px;
+  font-family: "Roboto";
+  font-weight: 300;
+  height: max-content;
+  padding: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.valor-hora {
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+}
+
+.valor-hora h5 {
+  font-size: 0.8rem;
+  color: rgb(116, 116, 116);
+}
+
+.valor-hora h4,
+h5 {
+  margin: 0px;
+}
+
+.footer-bg {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  font-family: Arial;
+  background-color: #000;
+  color: #fff;
+  height: 150px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* .atendimento {
+  background-color: #0F2939;
+} */

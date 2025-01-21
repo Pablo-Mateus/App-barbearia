@@ -1,0 +1,205 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: #5aa4d8; /* Cor de fundo para combinar com o azul da imagem */
+  margin: 0;
+  padding: 0;
+}
+
+#calendario {
+  width: max-content; /* Aumentar o tamanho da largura do calendário */
+  background-color: #336987; /* Fundo similar ao navbar da imagem */
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  color: white; /* Cor do texto para combinar */
+}
+
+#navegacao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#mes-ano {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+button {
+  background-color: #1c3f4e; /* Mesma cor do botão "Cancelar agendamento" */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9em; /* Ajusta o tamanho da fonte nos botões */
+}
+
+button:hover {
+  background-color: #16333d; /* Um tom mais escuro no hover */
+}
+
+#calendario-mes {
+  display: flex;
+  flex-direction: column;
+}
+
+.dias-semana,
+.dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.dia-semana,
+.dia {
+  padding: 10px;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.dia-semana {
+  font-weight: bold;
+  background-color: #1c3f4e; /* Fundo similar ao estilo do layout fornecido */
+  height: 40px; /* Garante que as células das semanas tenham altura fixa */
+  margin-bottom: 5px;
+}
+
+.dia {
+  background-color: #5aa4d8; /* Cor clara para os dias */
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  height: 40px; /* Garante que as células dos dias tenham altura fixa */
+}
+
+.dia:hover {
+  background-color: #3d779f; /* Fundo mais escuro ao passar o mouse */
+}
+
+#data-hora {
+  display: flex;
+  justify-content: center;
+  background-color: #1e577a;
+  padding: 15px;
+  border-radius: 6px;
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+}
+
+.observacao {
+  font-family: Arial;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ativo {
+  background-color: #011116 !important;
+}
+
+.ativo2 {
+  background-color: #ccc !important;
+}
+
+.horas {
+  display: flex;
+  gap: 5px;
+  width: 400px;
+  overflow-x: auto;
+  align-self: start;
+  margin: 15px auto;
+}
+
+.horas div {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.horas::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.erro {
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.agendamento-titulo {
+  margin-bottom: 20px;
+  padding: 25px;
+  color: #fff;
+  background-color: rgb(93, 102, 231);
+  border-radius: 15px;
+  box-shadow: 1px 2px 8px -2px rgba(94, 103, 230, 0.45);
+}
+
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e577a;
+  padding: 20px;
+  border-radius: 4px;
+  width: 1200px;
+}
+
+.menu-barber ul {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+
+.menu-barber ul li {
+  font-family: Arial;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+  background-color: #0b2230;
+  border-radius: 5px;
+}
+
+.container {
+  padding: 30px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.imagem-logo img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 3px solid #49b4f5;
+}

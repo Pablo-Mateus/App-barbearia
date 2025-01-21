@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registre-se</title>
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+  <header class="container">
+    <div class="header-menu">
+      <div class="imagem-logo">
+        <a href="/index.html"><img src="IMG/Captura de tela 2024-09-02 141005 1LOGO.svg" alt=""></a>
+      </div>
+      <div class="menu-barber">
+        <ul>
+          <li><a href="register">Inscreva-se</a></li>
+          <li><a href="login">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <main>
+
+    <h1>REGISTRE-SE</h1>
+    <form id="formulario">
+      <div>
+        <label for="name">Nome de usuário</label>
+        <input type="text" id="name" name="name">
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div>
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password">
+      </div>
+      <div>
+        <label for="confirmpassword">Confirmar senha</label>
+        <input type="password" id="confirmpassword" name="confirmpassword">
+      </div>
+      <button class="botao" type="submit">Enviar</button>
+      <div class="resposta"></div>
+    </form>
+
+
+  </main>
+
+  <script src="register.js"></script>
+</body>
+
+</html>
