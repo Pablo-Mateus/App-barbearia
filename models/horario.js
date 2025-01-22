@@ -5,6 +5,7 @@ const horarioSchema = new mongoose.Schema({
   horaInicio: { type: Number, required: true },
   horaFim: { type: Number, required: true },
   intervalo: { type: Number, required: true },
+  horasTotais: { type: Array, require: true },
 });
 
 const Horario = mongoose.model("Horario", horarioSchema);

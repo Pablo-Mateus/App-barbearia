@@ -60,7 +60,7 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
 
   try {
     const horarios = await Horario.findOne({ diaSemana: diaSemana });
-    console.log(horarios);
+
     if (!horarios) {
       return res
         .status(404)
@@ -93,8 +93,11 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
       );
     }
+    console.log(listaHorarios);
+    horarios.horasTotais = listaHorarios;
+    await horarios.save();
 
-    res.json({ msg: listaHorarios });
+    res.json({ msg: horarios.horasTotais });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Erro ao buscar horários disponíveis." });
