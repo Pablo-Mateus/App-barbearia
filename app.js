@@ -60,17 +60,7 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
 
   try {
     const horarios = await Horario.findOne({ diaSemana: diaSemana });
-
-    const listaHorarios = [];
-
-    for (
-      let i = horarios.horaInicio;
-      i < horarios.horaFim;
-      i += horarios.intervalo 
-    ) {
-      console.log(i);
-    }
-
+    console.log(horarios);
     if (!horarios) {
       return res
         .status(404)
@@ -89,43 +79,22 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         .json({ msg: "Nenhum horário disponível para este dia." });
     }
 
-    // function generateTimeSlots(startTime, endTime, interval) {
-    //   const timeSlots = [];
-    //   function timeToString(timeString) {
-    //     const [hours, minutes] = timeString.split(":").map(Number);
-    //     const date = new Date();
-    //     date.setHours(hours, minutes, 0, 0);
-    //     return date;
-    //   }
+    const listaHorarios = [];
+    let horaInteira = 0;
+    let minutos = 0;
+    for (
+      let i = horarios.horaInicio;
+      i <= horarios.horaFim;
+      i += horarios.intervalo
+    ) {
+      minutos = i % 60;
+      horaInteira = i / 60;
+      listaHorarios.push(
+        `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
+      );
+    }
 
-    //   function formatDateTimeString(date) {
-    //     const hours = String(date.getHours()).padStart(2, "0");
-    //     const minutes = String(date.getMinutes()).padStart(2, "0");
-    //     return `${hours}:${minutes}`;
-    //   }
-    //   let currentTime = timeToString(startTime);
-    //   const endTimeDate = timeToString(endTime);
-
-    //   while (currentTime < endTimeDate) {
-    //     timeSlots.push(formatDateTimeString(currentTime));
-    //     currentTime.setMinutes(currentTime.getMinutes() + interval);
-    //   }
-    //   timeSlots.push(endTime);
-
-    //   return timeSlots;
-    // }
-    // const start = horarios.horaInicio;
-    // const end = horarios.horaFim;
-    // const interval = horarios.intervalo;
-    // const timeSlots = generateTimeSlots(start, end, interval);
-    // const agendamentos = await Agendado.find({ diaSemana: diaSemana });
-
-    // const horasAgendadas = agendamentos.map((agendamento) => agendamento.hora);
-    // const horariosDisponiveis = timeSlots.filter(
-    //   (hora) => !horasAgendadas.includes(hora)
-    // );
-
-    // res.json({ msg: horariosDisponiveis });
+    res.json({ msg: listaHorarios });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Erro ao buscar horários disponíveis." });
@@ -330,7 +299,7 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 mongoose
-  .connect("mongodb://localhost:27017/local")
+  .connect("mongodb://0.0.0.0/local")
   .then(() => {
     app.listen(3000);
     console.log("Conectou ao banco");

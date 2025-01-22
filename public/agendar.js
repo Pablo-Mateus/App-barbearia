@@ -102,12 +102,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const dataSelecionada = new Date(anoAtual, mesAtual, diaSelecionado);
         const diaSemana = dataSelecionada.getDay();
         diaSemanaGlobal = dataSelecionada.getDay();
-       
+
         const response = await fetch(
           `http://localhost:3000/disponiveis?diaSemana=${diaSemana}`
         );
         const data = await response.json();
-
+        console.log(data);
         const botaoHora = document.querySelector(".botao-hora");
         const divContainer = document.querySelector(".horas");
 
@@ -166,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function () {
             servico: servico,
             horario: horario,
           };
-      
 
           fetch("http://localhost:3000/criarAgendamento", {
             method: "POST",
