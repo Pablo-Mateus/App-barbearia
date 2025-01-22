@@ -93,7 +93,7 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
       );
     }
-    console.log(listaHorarios);
+
     horarios.horasTotais = listaHorarios;
     await horarios.save();
 

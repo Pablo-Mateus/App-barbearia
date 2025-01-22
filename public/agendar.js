@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
           `http://localhost:3000/disponiveis?diaSemana=${diaSemana}`
         );
         const data = await response.json();
-        console.log(data);
         const botaoHora = document.querySelector(".botao-hora");
         const divContainer = document.querySelector(".horas");
 
@@ -155,7 +154,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const listaDiv = document.querySelectorAll(".horas div");
       listaDiv.forEach((item) => {
-        if (item.classList.contains("ativo2")) {
+        if (
+          item.classList.contains("ativo2") &&
+          servico !== null &&
+          horario !== null
+        ) {
           const hora = item.textContent;
           const informacoes = {
             diaSemana: diaSemanaGlobal,
@@ -172,11 +175,12 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
           });
-
           botaoEnviar.innerText = "Horário agendado com sucesso";
           setTimeout(() => {
             location.replace("http://localhost:3000/agendamentos");
           }, 2000);
+        } else {
+          botaoEnviar.innerText = "Você precisa selecionar um serviço";
         }
       });
     }
