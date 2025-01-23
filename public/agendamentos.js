@@ -24,7 +24,14 @@ async function mostrarAgendamento() {
       const tempo = document.createElement("h2");
       tempo.classList.add("tempo");
       servico.innerText = `Servico: ${item.servico}`;
-      tempo.innerText = `Tempo: ${item.horario} minutos`;
+      const spanTempo = document.createElement("span");
+      spanTempo.classList.add("tempoAtual");
+      spanTempo.innerHTML = item.horario;
+      tempo.appendChild(spanTempo);
+      const divTempo = document.createElement("span");
+
+      divTempo.innerText = "Tempo: ";
+      tempo.insertAdjacentElement("afterBegin", divTempo);
       novoLi.textContent = item.hora;
       divContainer.appendChild(novaDiv);
       novaDiv.appendChild(novoLi);
@@ -52,11 +59,14 @@ async function mostrarAgendamento() {
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
       listaLi.forEach(async (item) => {
+        const tempoServico = document.querySelector(".tempoAtual").innerText;
+        
         if (item.classList.contains("mudarCor")) {
           const informacoes = {
             dia: h2Element.textContent,
             hora: item.textContent,
             diaSemana: data[0].diaSemana,
+            tempoServico,
           };
           try {
             const requisicao = await fetch("/retomarAgendamento", {
