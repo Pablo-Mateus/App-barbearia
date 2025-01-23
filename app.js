@@ -230,6 +230,15 @@ app.post("/retomarAgendamento", async (req, res) => {
       { $addToSet: { horasTotais: req.body.hora } }
     );
 
+    const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
+
+    horarios.horasTotais.sort((a, b) => {
+      const [hourA, minuteA] = a.split(":").map(Number);
+      const [hourB, minuteB] = b.split(":").map(Number);
+      return hourA - hourB || minuteA - minuteB;
+    });
+    await horarios.save();
+
     await Agendado.deleteOne({ hora: req.body.hora });
     res.status(200).json({ msg: "Horário deletado com sucesso" });
   } catch (err) {
