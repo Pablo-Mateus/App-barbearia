@@ -57,7 +57,6 @@ function redirecionarSeLogado(req, res, next) {
 
 app.get("/disponiveis", verificarToken, async (req, res) => {
   const diaSemana = req.query.diaSemana;
-
   try {
     const horarios = await Horario.findOne({ diaSemana: diaSemana });
 
@@ -79,30 +78,65 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         .json({ msg: "Nenhum horário disponível para este dia." });
     }
 
-    const listaHorarios = [];
-    let horaInteira = 0;
-    let minutos = 0;
-    for (
-      let i = horarios.horaInicio;
-      i <= horarios.horaFim;
-      i += horarios.intervalo
-    ) {
-      minutos = i % 60;
-      horaInteira = i / 60;
-      listaHorarios.push(
-        `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
-      );
-    }
-
-    horarios.horasTotais = listaHorarios;
-    await horarios.save();
-
     res.json({ msg: horarios.horasTotais });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Erro ao buscar horários disponíveis." });
   }
 });
+
+app.post("/removerHorario", async (req, res) => {
+  await Horario.updateOne(
+    { diaSemana: req.body.diaSemana },
+    { $pull: { horasTotais: req.body.hora } }
+  );
+});
+
+// app.post("/criarHorario", verificarToken, async (req, res) => {
+//   try {
+//     const horarios = await Horario.findOne({ diaSemana: diaSemana });
+
+//     if (!horarios) {
+//       return res
+//         .status(404)
+//         .json({ msg: "Nenhum horário disponível para este dia." });
+//     }
+
+//     if (diaSemana == 0) {
+//       return res
+//         .status(404)
+//         .json({ msg: "Nenhum horário disponível para este dia." });
+//     }
+
+//     if (diaSemana == 1) {
+//       return res
+//         .status(404)
+//         .json({ msg: "Nenhum horário disponível para este dia." });
+//     }
+
+//     const listaHorarios = [];
+//     let horaInteira = 0;
+//     let minutos = 0;
+//     for (
+//       let i = horarios.horaInicio;
+//       i <= horarios.horaFim;
+//       i += horarios.intervalo
+//     ) {
+//       minutos = i % 60;
+//       horaInteira = i / 60;
+//       listaHorarios.push(
+//         `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
+//       );
+//     }
+//     horarios.horasTotais = listaHorarios;
+//     await horarios.save();
+
+//     res.json({ msg: horarios.horasTotais });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ msg: "Erro ao buscar horários disponíveis." });
+//   }
+// });
 
 app.post("/adicionar", async (req, res) => {
   console.log(req.body);
@@ -117,7 +151,26 @@ app.post("/adicionar", async (req, res) => {
       intervalo,
     });
     await data.save();
-    console.log(horaInicio);
+
+    const horarios = await Horario.findOne({ diaSemana: diaSemana });
+
+    const listaHorarios = [];
+    let horaInteira = 0;
+    let minutos = 0;
+    for (
+      let i = horarios.horaInicio;
+      i <= horarios.horaFim;
+      i += horarios.intervalo
+    ) {
+      minutos = i % 60;
+      horaInteira = i / 60;
+      listaHorarios.push(
+        `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
+      );
+    }
+    horarios.horasTotais = listaHorarios;
+    await horarios.save();
+
     res.status(200).json({ msg: "Horário adicionado com sucesso!" });
   } catch (err) {
     console.log(err);
@@ -171,6 +224,12 @@ app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
 
 app.post("/retomarAgendamento", async (req, res) => {
   try {
+    console.log(req.body);
+    await Horario.updateOne(
+      { diaSemana: req.body.diaSemana },
+      { $addToSet: { horasTotais: req.body.hora } }
+    );
+
     await Agendado.deleteOne({ hora: req.body.hora });
     res.status(200).json({ msg: "Horário deletado com sucesso" });
   } catch (err) {
@@ -186,7 +245,8 @@ app.post("/criarAgendamento", async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET);
   const nomeUsuario = decoded.id;
-
+  const diaSemana = parseInt(req.body.diaSemana);
+  const horaAtual = req.body.hora;
   try {
     const horaAgendada = new Agendado({
       name: nomeUsuario,

@@ -2,8 +2,8 @@ async function mostrarAgendamento() {
   try {
     const response = await fetch("/mostrarAgendamento");
     const data = await response.json();
-    console.log(data);
     const dia = document.querySelector("#dia");
+
     data.forEach((item) => {
       if (item.mes === 0) {
         item.mes = 1;
@@ -20,12 +20,12 @@ async function mostrarAgendamento() {
       const novoLi = document.createElement("li");
       novoLi.classList.add("liHorario");
       const servico = document.createElement("h2");
-      servico.classList.add("servico")
+      servico.classList.add("servico");
       const tempo = document.createElement("h2");
-      tempo.classList.add("tempo")
+      tempo.classList.add("tempo");
       servico.innerText = `Servico: ${item.servico}`;
       tempo.innerText = `Tempo: ${item.horario} minutos`;
-      novoLi.textContent = item.hora
+      novoLi.textContent = item.hora;
       divContainer.appendChild(novaDiv);
       novaDiv.appendChild(novoLi);
       divContainer.appendChild(servico);
@@ -56,6 +56,7 @@ async function mostrarAgendamento() {
           const informacoes = {
             dia: h2Element.textContent,
             hora: item.textContent,
+            diaSemana: data[0].diaSemana,
           };
           try {
             const requisicao = await fetch("/retomarAgendamento", {
@@ -82,5 +83,3 @@ async function mostrarAgendamento() {
 }
 
 mostrarAgendamento();
-
-

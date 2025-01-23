@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
           `http://localhost:3000/disponiveis?diaSemana=${diaSemana}`
         );
         const data = await response.json();
+        console.log(data);
         const botaoHora = document.querySelector(".botao-hora");
         const divContainer = document.querySelector(".horas");
 
@@ -175,11 +176,18 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
           });
+          fetch("http://localhost:3000/removerHorario", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(informacoes),
+          });
           botaoEnviar.innerText = "Horário agendado com sucesso";
           setTimeout(() => {
             location.replace("http://localhost:3000/agendamentos");
           }, 2000);
-        } else {
+        }
+
+        if (servico === null && horario === null) {
           botaoEnviar.innerText = "Você precisa selecionar um serviço";
         }
       });
