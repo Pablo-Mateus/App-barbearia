@@ -86,10 +86,39 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
 });
 
 app.post("/removerHorario", async (req, res) => {
-  console.log(req.body);
+  const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
+  const tempoServico = +req.body.horario;
+  const horaMarcada = +req.body.hora.replace(":", ".") * 60;
+  const arrayMinutes = [];
+  
+  horarios.horasTotais.forEach((item, indice) => {
+    arrayMinutes[indice] = +item.replace(":", ".") * 60;
+  });
+  console.log(arrayMinutes);
+  const tempoTotal = horaMarcada + tempoServico;
+  const novoArray = [];
+
+  arrayMinutes.forEach((item, index) => {
+    if (item < tempoTotal) {
+      const diferenca = tempoTotal - item;
+      
+    }
+  });
+  console.log(novoArray);
+  const arrayFormatado = [];
+  let horaInteira = 0;
+
+  for (let i = 0; i <= novoArray.length; i++) {
+    horaInteira = (novoArray[i] / 60).toFixed(2).replace(".", ":");
+
+    arrayFormatado.push(horaInteira);
+  }
+
+  console.log(arrayFormatado);
+
   await Horario.updateOne(
     { diaSemana: req.body.diaSemana },
-    { $pull: { horasTotais: req.body.hora } }
+    { $pull: { horasTotais: { $in: arrayFormatado } } }
   );
 });
 
@@ -231,16 +260,7 @@ app.post("/retomarAgendamento", async (req, res) => {
     );
 
     const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
-  const tempoServico =  req.body.tempoServico;
-    const horaMarcada = +req.body.hora.replace(":", ".") * 60;
-    const arrayMinutes = [];
 
-    horarios.horasTotais.forEach((item, indice) => {
-      arrayMinutes[indice] = +item.replace(":", ".") * 60;
-    });
-
-    for(let i = horaMarcada; i < horaMarcada+
- 
     horarios.horasTotais.sort((a, b) => {
       const [hourA, minuteA] = a.split(":").map(Number);
       const [hourB, minuteB] = b.split(":").map(Number);
@@ -254,7 +274,7 @@ app.post("/retomarAgendamento", async (req, res) => {
     console.log(err);
   }
 });
-      
+
 app.post("/criarAgendamento", async (req, res) => {
   const token = req.cookies.token;
   if (!token) {

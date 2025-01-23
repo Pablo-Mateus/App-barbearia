@@ -60,13 +60,12 @@ async function mostrarAgendamento() {
         .closest("div").previousSibling;
       listaLi.forEach(async (item) => {
         const tempoServico = document.querySelector(".tempoAtual").innerText;
-        
+
         if (item.classList.contains("mudarCor")) {
           const informacoes = {
             dia: h2Element.textContent,
             hora: item.textContent,
             diaSemana: data[0].diaSemana,
-            tempoServico,
           };
           try {
             const requisicao = await fetch("/retomarAgendamento", {
