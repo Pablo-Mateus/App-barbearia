@@ -66,6 +66,7 @@ async function mostrarAgendamento() {
             dia: h2Element.textContent,
             hora: item.textContent,
             diaSemana: data[0].diaSemana,
+            horarios: localStorage.getItem("horarios"),
           };
           try {
             const requisicao = await fetch("/retomarAgendamento", {

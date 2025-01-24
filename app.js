@@ -86,50 +86,49 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
 });
 
 app.post("/removerHorario", async (req, res) => {
-  const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
-  const tempoServico = +req.body.horario;
-  const horaMarcada = +req.body.hora.replace(":", ".") 
-  
-  const arrayMinutes = [];
+  try {
+    const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
+    const tempoServico = +req.body.horario;
+    const arrayHora = req.body.hora.split(":").map(Number);
 
-  horarios.horasTotais.forEach((item, indice) => {
-    const [hora, minuto] = item.split(":").map(Number);
-    arrayMinutes[indice] = hora * 60 + minuto;
-  });
-  console.log(horaMarcada);
+    let horarioConvertido = 0;
+    const arrayMinutes = [];
+    horarioConvertido = arrayHora[0] * 60 + arrayHora[1];
 
-  const tempoTotal = horaMarcada + tempoServico;
-  const novoArray = [];
+    horarios.horasTotais.forEach((item, indice) => {
+      const [hora, minuto] = item.split(":").map(Number);
+      arrayMinutes[indice] = hora * 60 + minuto;
+    });
+    const tempoTotal = horarioConvertido + tempoServico;
+    const novoArray = [];
+    const posicaoHora = arrayMinutes.indexOf(horarioConvertido);
 
-  arrayMinutes.forEach((item, index) => {
-    if (horaMarcada < tempoTotal) {
-      novoArray[index] = item;
+    for (let i = posicaoHora; i < arrayMinutes.length; i++) {
+      if (arrayMinutes[i] < tempoTotal) {
+        novoArray.push(arrayMinutes[i]);
+      }
     }
-  });
 
-  const arrayFormatado = [];
-  let horaInteira = 0;
+    const arrayFormatado = [];
+    let horaInteira = 0;
+    novoArray.forEach((item, index) => {
+      const horaInteira = Math.floor(item / 60);
+      const minutosRestantes = item % 60;
+      arrayFormatado.push(
+        `${horaInteira}:${minutosRestantes.toString().padStart(2, "0")}`
+      );
+    });
 
-  novoArray.forEach((item, index) => {
-    const horaInteira = Math.floor(item / 60);
-    const minutosRestantes = item % 60;
-    arrayFormatado.push(
-      `${horaInteira}:${minutosRestantes.toString().padStart(2, "0")}`
+    await Horario.updateOne(
+      { diaSemana: req.body.diaSemana },
+      { $pull: { horasTotais: { $in: arrayFormatado } } }
     );
-  });
-  console.log(novoArray);
-  // for (let i = 0; i < novoArray.length; i++) {
-  //   const [hora, minuto] = item.split(":").map(Number);
-  //   arrayFormatado[indice] = hora * 60 + minuto;
-  //   // horaInteira = (novoArray[i] / 60).toFixed(1).replace(".", ":");
+    const stringHora = arrayFormatado.toString();
 
-  //   // arrayFormatado.push(horaInteira);
-  // }
-
-  await Horario.updateOne(
-    { diaSemana: req.body.diaSemana },
-    { $pull: { horasTotais: { $in: arrayFormatado } } }
-  );
+    res.status(200).json({ msg: stringHora });
+  } catch {
+    res.status(404).json({ msg: "Houve um erro ao remover horário" });
+  }
 });
 
 // app.post("/criarHorario", verificarToken, async (req, res) => {
@@ -179,7 +178,6 @@ app.post("/removerHorario", async (req, res) => {
 // });
 
 app.post("/adicionar", async (req, res) => {
-  console.log(req.body);
   try {
     const { diaSemana, horaInicio, horaFim, intervalo } = req.body;
     const minutosInicio = horaInicio * 60;
@@ -263,10 +261,13 @@ app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
 });
 
 app.post("/retomarAgendamento", async (req, res) => {
+  const data = JSON.parse(req.body.horarios);
+  const arrayHorarios = data.msg.split(",");
+  console.log(arrayHorarios);
   try {
     await Horario.updateOne(
       { diaSemana: req.body.diaSemana },
-      { $addToSet: { horasTotais: req.body.hora } }
+      { $addToSet: { horasTotais: { $each: arrayHorarios } } }
     );
 
     const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
