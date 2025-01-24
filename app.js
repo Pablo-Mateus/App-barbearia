@@ -88,33 +88,43 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
 app.post("/removerHorario", async (req, res) => {
   const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
   const tempoServico = +req.body.horario;
-  const horaMarcada = +req.body.hora.replace(":", ".") * 60;
-  const arrayMinutes = [];
+  const horaMarcada = +req.body.hora.replace(":", ".") 
   
+  const arrayMinutes = [];
+
   horarios.horasTotais.forEach((item, indice) => {
-    arrayMinutes[indice] = +item.replace(":", ".") * 60;
+    const [hora, minuto] = item.split(":").map(Number);
+    arrayMinutes[indice] = hora * 60 + minuto;
   });
-  console.log(arrayMinutes);
+  console.log(horaMarcada);
+
   const tempoTotal = horaMarcada + tempoServico;
   const novoArray = [];
 
   arrayMinutes.forEach((item, index) => {
-    if (item < tempoTotal) {
-      const diferenca = tempoTotal - item;
-      
+    if (horaMarcada < tempoTotal) {
+      novoArray[index] = item;
     }
   });
-  console.log(novoArray);
+
   const arrayFormatado = [];
   let horaInteira = 0;
 
-  for (let i = 0; i <= novoArray.length; i++) {
-    horaInteira = (novoArray[i] / 60).toFixed(2).replace(".", ":");
+  novoArray.forEach((item, index) => {
+    const horaInteira = Math.floor(item / 60);
+    const minutosRestantes = item % 60;
+    arrayFormatado.push(
+      `${horaInteira}:${minutosRestantes.toString().padStart(2, "0")}`
+    );
+  });
+  console.log(novoArray);
+  // for (let i = 0; i < novoArray.length; i++) {
+  //   const [hora, minuto] = item.split(":").map(Number);
+  //   arrayFormatado[indice] = hora * 60 + minuto;
+  //   // horaInteira = (novoArray[i] / 60).toFixed(1).replace(".", ":");
 
-    arrayFormatado.push(horaInteira);
-  }
-
-  console.log(arrayFormatado);
+  //   // arrayFormatado.push(horaInteira);
+  // }
 
   await Horario.updateOne(
     { diaSemana: req.body.diaSemana },
