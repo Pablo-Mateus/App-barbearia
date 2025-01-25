@@ -32,7 +32,7 @@ function verificarToken(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
-
+    console.log(decoded);
     req.user = decoded;
     next();
   } catch (err) {
@@ -232,7 +232,28 @@ app.get("/register", redirecionarSeLogado, (req, res) => {
 });
 
 app.get("/logado", verificarToken, (req, res) => {
+  // const token = req.cookies.token;
+  // const decoded = jwt.verify(token, process.env.SECRET);
+  // if (decoded === "felipe@gmail.com") {
+  //   res.json({ redirect: "/logadoBarbeiro" });
+  // }
+  // if (decoded !== "felipe@gmail.com") {
+
+  // }
   res.render("logado");
+});
+
+app.get("/logadoBarbeiro", verificarToken, (req, res) => {
+  const token = req.cookies.token;
+
+  const decoded = jwt.verify(token, process.env.SECRET);
+  console.log(decoded);
+  req.user = decoded;
+  if (decoded.id === "felipe@gmail.com") {
+    res.render("logadoBarbeiro");
+  } else {
+    res.redirect("logado");
+  }
 });
 
 app.get("/logout", verificarToken, (req, res) => {
@@ -355,7 +376,7 @@ app.post("/auth/register", async (req, res) => {
     });
     await user.save();
 
-    const token = jwt.sign({ id: user.name }, process.env.SECRET, {
+    const token = jwt.sign({ id: user.email }, process.env.SECRET, {
       expiresIn: "1h",
     });
     res.cookie("token", token, { httpOnly: true });
@@ -398,12 +419,19 @@ app.post("/auth/login", async (req, res) => {
     const secret = process.env.SECRET;
     const token = jwt.sign(
       {
-        id: user.name,
+        id: user.email,
       },
       secret
     );
     res.cookie("token", token, { httpOnly: true });
-    res.json({ redirect: "/logado" });
+    const decoded = jwt.verify(token, process.env.SECRET);
+
+    if (decoded === "felipe@gmail.com") {
+      res.json({ redirect: "/logadoBarbeiro" });
+    }
+    if (decoded !== "felipe@gmail.com") {
+      res.json({ redirect: "/logado" });
+    }
   } catch (err) {
     res.status(500).json({
       msg: "Aconteceu um erro no servidor, tente novamente mais tarde.",
