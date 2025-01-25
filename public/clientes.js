@@ -1,14 +1,20 @@
 async function mostrarAgendamento() {
   try {
-    const response = await fetch("/mostrarAgendamento");
+    const response = await fetch("/mostrarClientes");
     const data = await response.json();
     const dia = document.querySelector("#dia");
-  
+    console.log(data);
     data.forEach((item) => {
       if (item.mes === 0) {
         item.mes = 1;
       }
+
       const divContainer = document.createElement("div");
+      const nome = document.createElement("h2");
+      const nomeMaiusculo =
+        item.name.charAt(0).toUpperCase() + item.name.substring(1);
+      nome.innerText = nomeMaiusculo;
+      divContainer.appendChild(nome);
       divContainer.classList.add("divContainer");
       const novoDia = document.createElement("h2");
       const diaFormat = item.dia.toString().padStart(2, "0");

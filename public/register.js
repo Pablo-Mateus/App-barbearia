@@ -10,7 +10,8 @@ async function enviarDados(e) {
   formulario.forEach((item, indice) => {
     json[indice] = item;
   });
-
+  // localStorage.setItem("nome", json.name);
+  document.cookie = `Nome=${json.name}`;
   const response = await fetch("http://localhost:3000/auth/register", {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -18,7 +19,6 @@ async function enviarDados(e) {
   });
 
   const data = await response.json();
- 
 
   if (response.ok && data.redirect) {
     // Verifica se a resposta está OK e tem a URL

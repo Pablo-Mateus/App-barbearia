@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
           const hora = item.textContent;
           const informacoes = {
+            name: document.cookie.name,
             diaSemana: diaSemanaGlobal,
             dia: diaSelecionadoGlobal,
             mes: mesAtual,

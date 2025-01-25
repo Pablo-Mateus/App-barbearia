@@ -232,15 +232,25 @@ app.get("/register", redirecionarSeLogado, (req, res) => {
 });
 
 app.get("/logado", verificarToken, (req, res) => {
-  // const token = req.cookies.token;
-  // const decoded = jwt.verify(token, process.env.SECRET);
-  // if (decoded === "felipe@gmail.com") {
-  //   res.json({ redirect: "/logadoBarbeiro" });
-  // }
-  // if (decoded !== "felipe@gmail.com") {
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, process.env.SECRET);
+  if (decoded.id === "felipe@gmail.com") {
+    res.redirect("/logadoBarbeiro");
+  }
+  if (decoded.id !== "felipe@gmail.com") {
+    res.render("logado");
+  }
+});
 
-  // }
-  res.render("logado");
+app.get("/clientes", verificarToken, (req, res) => {
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, process.env.SECRET);
+  req.user = decoded;
+  if (decoded.id === "felipe@gmail.com") {
+    res.render("clientes");
+  } else {
+    res.redirect("/agendamentos");
+  }
 });
 
 app.get("/logadoBarbeiro", verificarToken, (req, res) => {
@@ -258,13 +268,35 @@ app.get("/logadoBarbeiro", verificarToken, (req, res) => {
 
 app.get("/logout", verificarToken, (req, res) => {
   res.clearCookie("token");
+  res.clearCookie("Nome");
   res.redirect("/login");
 });
 
 app.get("/agendamentos", verificarToken, (req, res) => {
-  res.render("agendamentos");
+  const token = req.cookies.token;
+  const decoded = jwt.verify(token, process.env.SECRET);
+  req.user = decoded;
+  if (decoded.id === "felipe@gmail.com") {
+    res.redirect("/clientes");
+  } else {
+    res.render("agendamentos");
+  }
 });
+app.get("/mostrarClientes", verificarToken, async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    console.log("Token não encontrado");
+  }
 
+  const decoded = jwt.verify(token, process.env.SECRET);
+  const nomeUsuario = decoded.id;
+  try {
+    const agendamentos = await Agendado.find({});
+    res.json(agendamentos);
+  } catch (err) {
+    console.log(err);
+  }
+});
 app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
@@ -274,7 +306,7 @@ app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
   const decoded = jwt.verify(token, process.env.SECRET);
   const nomeUsuario = decoded.id;
   try {
-    const agendamentos = await Agendado.find({ name: nomeUsuario });
+    const agendamentos = await Agendado.find({ name: req.cookies.Nome });
     res.json(agendamentos);
   } catch (err) {
     console.log(err);
@@ -309,6 +341,8 @@ app.post("/retomarAgendamento", async (req, res) => {
 
 app.post("/criarAgendamento", async (req, res) => {
   const token = req.cookies.token;
+  console.log(req.cookies.Nome);
+
   if (!token) {
     console.log("Token não encontrado");
   }
@@ -319,7 +353,7 @@ app.post("/criarAgendamento", async (req, res) => {
   const horaAtual = req.body.hora;
   try {
     const horaAgendada = new Agendado({
-      name: nomeUsuario,
+      name: req.cookies.Nome,
       diaSemana: req.body.diaSemana,
       dia: req.body.dia,
       mes: req.body.mes,
@@ -380,7 +414,14 @@ app.post("/auth/register", async (req, res) => {
       expiresIn: "1h",
     });
     res.cookie("token", token, { httpOnly: true });
-    res.json({ redirect: "/logado" });
+    const decoded = jwt.verify(token, process.env.SECRET);
+
+    if (decoded.id === "felipe@gmail.com") {
+      res.json({ redirect: "/logadoBarbeiro" });
+    }
+    if (decoded.id !== "felipe@gmail.com") {
+      res.json({ redirect: "/logado" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -404,6 +445,7 @@ app.post("/auth/login", async (req, res) => {
 
   //Check if user exists
   const user = await User.findOne({ email: email });
+  res.cookie("Nome", user.name);
   if (!user) {
     return res.status(404).json({ msg: "Usuário não encontado!" });
   }
@@ -426,10 +468,10 @@ app.post("/auth/login", async (req, res) => {
     res.cookie("token", token, { httpOnly: true });
     const decoded = jwt.verify(token, process.env.SECRET);
 
-    if (decoded === "felipe@gmail.com") {
+    if (decoded.id === "felipe@gmail.com") {
       res.json({ redirect: "/logadoBarbeiro" });
     }
-    if (decoded !== "felipe@gmail.com") {
+    if (decoded.id !== "felipe@gmail.com") {
       res.json({ redirect: "/logado" });
     }
   } catch (err) {
