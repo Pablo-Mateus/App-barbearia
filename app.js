@@ -55,6 +55,10 @@ function redirecionarSeLogado(req, res, next) {
   }
 }
 
+app.get("/definirHorario", (req, res) => {
+  res.render("definirHorario");
+});
+
 app.get("/disponiveis", verificarToken, async (req, res) => {
   const diaSemana = req.query.diaSemana;
   try {
@@ -130,52 +134,6 @@ app.post("/removerHorario", async (req, res) => {
     res.status(404).json({ msg: "Houve um erro ao remover horário" });
   }
 });
-
-// app.post("/criarHorario", verificarToken, async (req, res) => {
-//   try {
-//     const horarios = await Horario.findOne({ diaSemana: diaSemana });
-
-//     if (!horarios) {
-//       return res
-//         .status(404)
-//         .json({ msg: "Nenhum horário disponível para este dia." });
-//     }
-
-//     if (diaSemana == 0) {
-//       return res
-//         .status(404)
-//         .json({ msg: "Nenhum horário disponível para este dia." });
-//     }
-
-//     if (diaSemana == 1) {
-//       return res
-//         .status(404)
-//         .json({ msg: "Nenhum horário disponível para este dia." });
-//     }
-
-//     const listaHorarios = [];
-//     let horaInteira = 0;
-//     let minutos = 0;
-//     for (
-//       let i = horarios.horaInicio;
-//       i <= horarios.horaFim;
-//       i += horarios.intervalo
-//     ) {
-//       minutos = i % 60;
-//       horaInteira = i / 60;
-//       listaHorarios.push(
-//         `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
-//       );
-//     }
-//     horarios.horasTotais = listaHorarios;
-//     await horarios.save();
-
-//     res.json({ msg: horarios.horasTotais });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ msg: "Erro ao buscar horários disponíveis." });
-//   }
-// });
 
 app.post("/adicionar", async (req, res) => {
   try {
