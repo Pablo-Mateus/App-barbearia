@@ -26,41 +26,51 @@
 
     <h1>Selecione os horários para a semana</h1>
     <form id="formulario">
-      <div>
-        <label for="name">Segunda</label>
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
+
+      <div class="segunda">
+        <label>Segunda </label>
+        <div class="group">
+          <label for="">INICIO</label>
+          <input type="number" placeholder="00 horas" max="23">
+        </div>
+        <div class="group">
+          <label for="">FIM</label>
+          <input type="number" placeholder="00horas ">
+        </div>
+        <div class="group">
+          <label for="">INTERVALO</label>
+          <input type="number" placeholder="00 minutos">
+        </div>
       </div>
-      <div>
-        <label for="email">Terça</label>
-        <input type="email" id="email" name="email">
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
+      <div class="terca">
+        <label>Terça</label>
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
       </div>
-      <div>
-        <label for="password">Quarta</label>
-        <input type="password" id="password" name="password">
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
+      <div class="quarta">
+        <label>Quarta</label>
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
       </div>
-      <div>
-        <label for="confirmpassword">Quinta</label>
-        <input type="password" id="confirmpassword" name="confirmpassword">
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
+      <div class="quinta">
+        <label>Quinta</label>
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
       </div>
-      <div>
-        <label for="confirmpassword">Sexta</label>
-        <input type="password" id="confirmpassword" name="confirmpassword">
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
+      <div class="sexta">
+        <label>Sexta</label>
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
       </div>
-      <div>
-        <label for="confirmpassword">Sábado</label>
-        <input type="password" id="confirmpassword" name="confirmpassword">
-        <input type="text" id="name" name="name">
-        <input type="text" id="name" name="name">
+      <div class="sabado">
+        <label>Sábado</label>
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
+        <input type="number" placeholder="00:00">
       </div>
       <button class="botao" type="submit">Enviar</button>
       <div class="resposta"></div>
@@ -69,7 +79,7 @@
 
   </main>
 
-  <script src="register.js"></script>
+  <script src="selecionarHorario.js"></script>
 </body>
 
 </html>
