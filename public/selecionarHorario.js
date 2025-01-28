@@ -6,8 +6,17 @@ const quarta = document.querySelectorAll(".quarta input");
 const quinta = document.querySelectorAll(".quinta input");
 const sexta = document.querySelectorAll(".sexta input");
 const sabado = document.querySelectorAll(".sabado input");
+const select = document.querySelectorAll("select");
 
-
+select.forEach((item) => {
+  for (let i = 0; i < 24; i++) {
+    let hora = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
+    let option = document.createElement("option");
+    option.value = `${hora}:00`;
+    option.textContent = `${hora}:00`;
+    item.appendChild(option);
+  }
+});
 
 const dias = {
   segunda: {
@@ -41,6 +50,10 @@ const dias = {
     intervalo: sabado[2].value,
   },
 };
+
+$(document).ready(function () {
+  $("#teste").select2();
+});
 
 function enviarDados(e) {
   const dias = {
@@ -76,11 +89,6 @@ function enviarDados(e) {
     },
   };
   e.preventDefault();
-  inputs.forEach((item)=>{
-    if(item.value > ){
-
-    }
-  })
 }
 
 botao.addEventListener("click", enviarDados);

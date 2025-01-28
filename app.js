@@ -32,7 +32,6 @@ function verificarToken(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET);
-    console.log(decoded);
     req.user = decoded;
     next();
   } catch (err) {
@@ -178,6 +177,10 @@ app.get("/home", redirecionarSeLogado, (req, res) => {
 });
 
 app.get("/agendar", verificarToken, (req, res) => {
+  console.log(req.query.servico);
+  if (req.query.servico === undefined) {
+    res.redirect("/logado");
+  }
   res.render("agendar");
 });
 
