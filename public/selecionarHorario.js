@@ -1,94 +1,98 @@
 const inputs = document.querySelectorAll("div input");
 const botao = document.querySelector(".botao");
-const segunda = document.querySelectorAll(".segunda input");
-const terca = document.querySelectorAll(".terca input");
-const quarta = document.querySelectorAll(".quarta input");
-const quinta = document.querySelectorAll(".quinta input");
-const sexta = document.querySelectorAll(".sexta input");
-const sabado = document.querySelectorAll(".sabado input");
+const segunda = document.querySelectorAll(".segunda");
+const terca = document.querySelectorAll(".terca");
+const quarta = document.querySelectorAll(".quarta");
+const quinta = document.querySelectorAll(".quinta");
+const sexta = document.querySelectorAll(".sexta");
+const sabado = document.querySelectorAll(".sabado");
+const domingo = document.querySelectorAll(".domingo");
 const select = document.querySelectorAll("select");
+const selectMinutos = document.querySelectorAll("#minutos");
 
-select.forEach((item) => {
-  for (let i = 0; i < 24; i++) {
-    let hora = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
+selectMinutos.forEach((item) => {
+  for (let i = 0; i <= 60; i++) {
+    let minutos = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
     let option = document.createElement("option");
-    option.value = `${hora}:00`;
-    option.textContent = `${hora}:00`;
+    option.value = `00:${minutos}`;
+    option.textContent = `00:${minutos}`;
     item.appendChild(option);
   }
 });
 
-const dias = {
-  segunda: {
-    inicio: segunda[0].value,
-    fim: segunda[1].value,
-    intervalo: segunda[2].value,
-  },
-  terca: {
-    inicio: terca[0].value,
-    fim: terca[1].value,
-    intervalo: terca[2].value,
-  },
-  quarta: {
-    inicio: quarta[0].value,
-    fim: quarta[1].value,
-    intervalo: quarta[2].value,
-  },
-  quinta: {
-    inicio: quinta[0].value,
-    fim: quinta[1].value,
-    intervalo: quinta[2].value,
-  },
-  sexta: {
-    inicio: sexta[0].value,
-    fim: sexta[1].value,
-    intervalo: sexta[2].value,
-  },
-  sabado: {
-    inicio: sabado[0].value,
-    fim: sabado[1].value,
-    intervalo: sabado[2].value,
-  },
-};
-
-$(document).ready(function () {
-  $("#teste").select2();
+select.forEach((item) => {
+  if (
+    item.classList[0] === JSON.parse(localStorage.getItem(item.classList[0]))
+  ) {
+  }
+  if (item.id !== "minutos") {
+    for (let i = 0; i < 24; i++) {
+      let hora = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
+      let option = document.createElement("option");
+      option.value = `${hora}:00`;
+      option.textContent = `${hora}:00`;
+      item.appendChild(option);
+    }
+  }
 });
 
 function enviarDados(e) {
-  const dias = {
-    segunda: {
+  e.preventDefault();
+  const dias = [
+    {
+      dia: "segunda",
       inicio: segunda[0].value,
       fim: segunda[1].value,
       intervalo: segunda[2].value,
     },
-    terca: {
+    {
+      dia: "terca",
       inicio: terca[0].value,
       fim: terca[1].value,
       intervalo: terca[2].value,
     },
-    quarta: {
+    {
+      dia: "quarta",
       inicio: quarta[0].value,
       fim: quarta[1].value,
       intervalo: quarta[2].value,
     },
-    quinta: {
+    {
+      dia: "quinta",
       inicio: quinta[0].value,
       fim: quinta[1].value,
       intervalo: quinta[2].value,
     },
-    sexta: {
+    {
+      dia: "sexta",
       inicio: sexta[0].value,
       fim: sexta[1].value,
       intervalo: sexta[2].value,
     },
-    sabado: {
+    {
+      dia: "sabado",
       inicio: sabado[0].value,
       fim: sabado[1].value,
       intervalo: sabado[2].value,
     },
-  };
-  e.preventDefault();
+    {
+      dia: "domingo",
+      inicio: domingo[0].value,
+      fim: domingo[1].value,
+      intervalo: domingo[2].value,
+    },
+  ];
+
+  localStorage.clear();
+  dias.forEach((item) => {
+    localStorage.setItem(item.dia, JSON.stringify(item));
+  });
+
+  // const requisicao = await fetch("/adicionar", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify(dias),
+  // });
 }
 
 botao.addEventListener("click", enviarDados);

@@ -6,10 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registre-se</title>
   <link rel="stylesheet" href="/css/definirHorario.css">
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -27,97 +23,83 @@
     </div>
   </header>
   <main>
-    <select id="teste">
-      <option value="1">Opção 1</option>
-      <option value="2">Opção 2</option>
-      <option value="3">Opção 3</option>
-    </select>
     <h1>Selecione os horários para a semana</h1>
     <form id="formulario">
 
-      <div class="segunda">
+      <div>
         <label>Segunda</label>
         <div class="group">
           <label for="">INICIO</label>
-          <select name="inicio" id="inicio">
-            <option value="" data-default disabled selected></option>
+          <select class="segunda inicio-segunda">
           </select>
         </div>
         <div class="group">
           <label for="">FIM</label>
-          <select name="inicio">
-            <option value="" data-default disabled selected></option>
+          <select class="segunda fim-segunda">
           </select>
         </div>
         <div class="group">
           <label for="">INTERVALO</label>
-          <select name="inicio">
-            <option value="" data-default disabled selected></option>
+          <select id="minutos" class="segunda intervalo-segunda">
           </select>
         </div>
       </div>
-      <div class="terca">
+      <div>
         <label>Terça</label>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="terca inicio-terca">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="terca fim-terca">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select id="minutos" class="terca intervalo-terca">
         </select>
       </div>
-      <div class="quarta">
+      <div>
         <label>Quarta</label>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="quarta inicio-quarta">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="quarta fim-quarta">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select id="minutos" class="quarta intervalo-quarta">
         </select>
       </div>
-      <div class="quinta">
+      <div>
         <label>Quinta</label>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="quinta inicio-quinta">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="quinta fim-quinta">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select id="minutos" class="quinta intervalo-quinta">
         </select>
       </div>
-      <div class="sexta">
+      <div>
         <label>Sexta</label>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="sexta inicio-sexta">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="sexta fim-sexta">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select id="minutos" class="sexta intervalo-sexta">
         </select>
       </div>
-      <div class="sabado">
+      <div>
         <label>Sábado</label>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="sabado inicio-sabado">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select class="sabado fim-sabado">
         </select>
-        <select name="inicio">
-          <option value="" data-default disabled selected></option>
+        <select id="minutos" class="sabado intervalo-sabado">
+        </select>
+      </div>
+      <div>
+        <label>Domingo</label>
+        <select class="domingo inicio-domingo">
+        </select>
+        <select class="domingo fim-domingo">
+        </select>
+        <select id="minutos" class="domingo intervalo-domingo">
+
         </select>
       </div>
       <button class="botao" type="submit">Enviar</button>
-      <div class="resposta"></div>
     </form>
 
 
