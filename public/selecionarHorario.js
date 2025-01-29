@@ -9,7 +9,15 @@ const sabado = document.querySelectorAll(".sabado");
 const domingo = document.querySelectorAll(".domingo");
 const select = document.querySelectorAll("select");
 const selectMinutos = document.querySelectorAll("#minutos");
-
+const diasSemana = [
+  "segunda",
+  "terca",
+  "quarta",
+  "quinta",
+  "sexta",
+  "sabado",
+  "domingo",
+];
 selectMinutos.forEach((item) => {
   for (let i = 0; i <= 60; i++) {
     let minutos = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
@@ -21,10 +29,6 @@ selectMinutos.forEach((item) => {
 });
 
 select.forEach((item) => {
-  if (
-    item.classList[0] === JSON.parse(localStorage.getItem(item.classList[0]))
-  ) {
-  }
   if (item.id !== "minutos") {
     for (let i = 0; i < 24; i++) {
       let hora = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
@@ -36,7 +40,18 @@ select.forEach((item) => {
   }
 });
 
-function enviarDados(e) {
+diasSemana.forEach((item) => {
+  let dadosSalvos = JSON.parse(localStorage.getItem(item));
+  console.log(dadosSalvos);
+  if (dadosSalvos) {
+    let selects = document.querySelectorAll(`.${item}`);
+    selects[0].value = dadosSalvos.inicio;
+    selects[1].value = dadosSalvos.fim;
+    selects[2].value = dadosSalvos.intervalo;
+  }
+});
+
+async function enviarDados(e) {
   e.preventDefault();
   const dias = [
     {
@@ -88,11 +103,11 @@ function enviarDados(e) {
     localStorage.setItem(item.dia, JSON.stringify(item));
   });
 
-  // const requisicao = await fetch("/adicionar", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(dias),
-  // });
+  const requisicao = await fetch("/adicionar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dias),
+  });
 }
 
 botao.addEventListener("click", enviarDados);

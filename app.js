@@ -69,17 +69,17 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         .json({ msg: "Nenhum horário disponível para este dia." });
     }
 
-    if (diaSemana == 0) {
-      return res
-        .status(404)
-        .json({ msg: "Nenhum horário disponível para este dia." });
-    }
+    // if (diaSemana == 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ msg: "Nenhum horário disponível para este dia." });
+    // }
 
-    if (diaSemana == 1) {
-      return res
-        .status(404)
-        .json({ msg: "Nenhum horário disponível para este dia." });
-    }
+    // if (diaSemana == 1) {
+    //   return res
+    //     .status(404)
+    //     .json({ msg: "Nenhum horário disponível para este dia." });
+    // }
 
     res.json({ msg: horarios.horasTotais });
   } catch (err) {
@@ -136,35 +136,82 @@ app.post("/removerHorario", async (req, res) => {
 
 app.post("/adicionar", async (req, res) => {
   try {
-    const { diaSemana, horaInicio, horaFim, intervalo } = req.body;
-    const minutosInicio = horaInicio * 60;
-    const minutosFim = horaFim * 60;
-    const data = new Horario({
-      diaSemana,
-      horaInicio: minutosInicio,
-      horaFim: minutosFim,
-      intervalo,
-    });
-    await data.save();
+    const dias = req.body;
+    const diasSemanaMap = {
+      domingo: 0,
+      segunda: 1,
+      terca: 2,
+      quarta: 3,
+      quinta: 4,
+      sexta: 5,
+      sabado: 6,
+    };
 
-    const horarios = await Horario.findOne({ diaSemana: diaSemana });
+    for (const item of dias) {
+      const horaInicio = item.inicio;
+      const horaInicioFormat = +horaInicio.split(":")[0];
+      const horaFim = item.fim;
+      const horaFimFormat = +horaFim.split(":")[0];
+      const intervalo = item.intervalo;
+      const intervaloFormat = +intervalo.split(":")[1];
 
-    const listaHorarios = [];
-    let horaInteira = 0;
-    let minutos = 0;
-    for (
-      let i = horarios.horaInicio;
-      i <= horarios.horaFim;
-      i += horarios.intervalo
-    ) {
-      minutos = i % 60;
-      horaInteira = i / 60;
-      listaHorarios.push(
-        `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
-      );
+      let diaSemana = diasSemanaMap[item.dia];
+      if (item.dia === "domingo") {
+        diaSemana = 0;
+      } else if (item.dia === "segunda") {
+        diaSemana = 1;
+      } else if (item.dia === "terca") {
+        diaSemana = 2;
+      } else if (item.dia === "quarta") {
+        diaSemana = 3;
+      } else if (item.dia === "quinta") {
+        diaSemana = 4;
+      } else if (item.dia === "sexta") {
+        diaSemana = 5;
+      } else if (item.dia === "sabado") {
+        diaSemana = 6;
+      }
+      console.log(diaSemana);
+      const minutosInicio = horaInicioFormat * 60;
+      const minutosFim = horaFimFormat * 60;
+
+      const data = new Horario({
+        diaSemana: diaSemana,
+        horaInicio: minutosInicio,
+        horaFim: minutosFim,
+        intervalo: intervaloFormat,
+      });
+      await data.save();
     }
-    horarios.horasTotais = listaHorarios;
-    await horarios.save();
+
+    const horarios = await Horario.find();
+
+    for (const horario of horarios) {
+      console.log(horario);
+      const horarioExistente = await Horario.findOne({
+        diaSemana: horario.diaSemana,
+      });
+
+      if (!horarioExistente) {
+        // console.log(`Horario ja cadastrado para ${item.dia}`);
+        const listaHorarios = [];
+        let horaInteira = 0;
+        let minutos = 0;
+        for (
+          let i = horario.horaInicio;
+          i <= horario.horaFim;
+          i += horario.intervalo
+        ) {
+          minutos = i % 60;
+          horaInteira = i / 60;
+          listaHorarios.push(
+            `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
+          );
+          horario.horasTotais = listaHorarios;
+          await horario.save();
+        }
+      }
+    }
 
     res.status(200).json({ msg: "Horário adicionado com sucesso!" });
   } catch (err) {
