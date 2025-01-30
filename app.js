@@ -60,6 +60,7 @@ app.get("/definirHorario", (req, res) => {
 
 app.get("/disponiveis", verificarToken, async (req, res) => {
   const diaSemana = req.query.diaSemana;
+  console.log(diaSemana);
   try {
     const horarios = await Horario.findOne({ diaSemana: diaSemana });
 
@@ -68,18 +69,6 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         .status(404)
         .json({ msg: "Nenhum horário disponível para este dia." });
     }
-
-    // if (diaSemana == 0) {
-    //   return res
-    //     .status(404)
-    //     .json({ msg: "Nenhum horário disponível para este dia." });
-    // }
-
-    // if (diaSemana == 1) {
-    //   return res
-    //     .status(404)
-    //     .json({ msg: "Nenhum horário disponível para este dia." });
-    // }
 
     res.json({ msg: horarios.horasTotais });
   } catch (err) {
@@ -137,6 +126,11 @@ app.post("/removerHorario", async (req, res) => {
 app.post("/adicionar", async (req, res) => {
   try {
     const dias = req.body;
+    dias.forEach((item)=>{
+      if(){
+        
+      }
+    })
     const diasSemanaMap = {
       domingo: 0,
       segunda: 1,
@@ -158,9 +152,27 @@ app.post("/adicionar", async (req, res) => {
       const intervalo = item.intervalo;
       const intervaloFormat = +intervalo.split(":")[1];
 
+      let diaSemana = diasSemanaMap[item.dia];
+      if (item.dia === "domingo") {
+        diaSemana = 0;
+      } else if (item.dia === "segunda") {
+        diaSemana = 1;
+      } else if (item.dia === "terca") {
+        diaSemana = 2;
+      } else if (item.dia === "quarta") {
+        diaSemana = 3;
+      } else if (item.dia === "quinta") {
+        diaSemana = 4;
+      } else if (item.dia === "sexta") {
+        diaSemana = 5;
+      } else if (item.dia === "sabado") {
+        diaSemana = 6;
+      }
+      console.log(diaSemana);
       const minutosInicio = horaInicioFormat * 60;
       const minutosFim = horaFimFormat * 60;
-      let horario = await Horario.findOne({
+
+      const data = new Horario({
         diaSemana: diaSemana,
       });
 
@@ -172,26 +184,46 @@ app.post("/adicionar", async (req, res) => {
       horario.intervalo = intervaloFormat;
 
       await horario.save();
+      });
+     
+
+      horario ??= new Horario();
+
+      horario.diaSemana = diaSemana;
+      horario.horaInicio = minutosInicio;
+      horario.horaFim = minutosFim;
+      horario.intervalo = intervaloFormat;
+
+    
+      await horario.save();
     }
 
     const horarios = await Horario.find();
     for (const horario of horarios) {
-      const listaHorarios = [];
-      let horaInteira = 0;
-      let minutos = 0;
-      for (
-        let i = horario.horaInicio;
-        i <= horario.horaFim;
-        i += horario.intervalo
-      ) {
-        minutos = i % 60;
-        horaInteira = i / 60;
-        listaHorarios.push(
-          `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
-        );
+      console.log(horario);
+      const horarioExistente = await Horario.findOne({
+        diaSemana: horario.diaSemana,
+      });
+
+      if (!horarioExistente) {
+        // console.log(`Horario ja cadastrado para ${item.dia}`);
+        const listaHorarios = [];
+        let horaInteira = 0;
+        let minutos = 0;
+        for (
+          let i = horario.horaInicio;
+          i <= horario.horaFim;
+          i += horario.intervalo
+        ) {
+          minutos = i % 60;
+          horaInteira = i / 60;
+          listaHorarios.push(
+            `${Math.floor(horaInteira)}:${minutos.toString().padStart(2, "0")}`
+          );
+          horario.horasTotais = listaHorarios;
+          await horario.save();
+        }
       }
-      horario.horasTotais = listaHorarios;
-      await horario.save();
     }
 
     res.status(200).json({ msg: "Horário adicionado com sucesso!" });
@@ -205,7 +237,7 @@ app.get("/home", redirecionarSeLogado, (req, res) => {
 });
 
 app.get("/agendar", verificarToken, (req, res) => {
- 
+  console.log(req.query.servico);
   if (req.query.servico === undefined) {
     res.redirect("/logado");
   }
@@ -247,6 +279,7 @@ app.get("/logadoBarbeiro", verificarToken, (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET);
  
+
   req.user = decoded;
   if (decoded.id === "felipe@gmail.com") {
     res.render("logadoBarbeiro");
@@ -305,6 +338,7 @@ app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
 app.post("/retomarAgendamento", async (req, res) => {
   const data = JSON.parse(req.body.horarios);
   const arrayHorarios = data.msg.split(",");
+
  
   try {
     await Horario.updateOne(
@@ -330,7 +364,7 @@ app.post("/retomarAgendamento", async (req, res) => {
 
 app.post("/criarAgendamento", async (req, res) => {
   const token = req.cookies.token;
-  
+  console.log(req.cookies.Nome);
 
   if (!token) {
     console.log("Token não encontrado");

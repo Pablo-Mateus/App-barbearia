@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const calendarioMes = document.getElementById("calendario-mes");
   const mesAnoTexto = document.getElementById("mes-ano");
@@ -77,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mes = meses[mesAtual];
     mesAnoTexto.innerText = `${mes.nome} ${anoAtual}`;
     criarCalendarioMes(mes.nome, mes.dias, primeiroDia);
+    enviarDados();
   }
 
   // Eventos de navegação
@@ -97,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const diasSemana = document.querySelectorAll(".dia");
     let diaSelecionadoGlobal = null;
     let diaSemanaGlobal = null;
+
     diasSemana.forEach((item) => {
       item.addEventListener("click", async function captarDia(item) {
         const diaSelecionado = item.target.textContent;
@@ -111,6 +112,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const botaoHora = document.querySelector(".botao-hora");
         const divContainer = document.querySelector(".horas");
+        if (mesAtual !== new Date().getMonth()) {
+          divContainer.innerHTML = "";
+          return;
+        }
 
         divContainer.innerHTML = "";
         if (response.status === 404) {
@@ -119,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
           mensagem.innerHTML = data.msg;
           divContainer.appendChild(mensagem);
         }
+
         data.msg.forEach((item, indice) => {
           const horas = document.createElement("div");
           horas.innerHTML = data.msg[indice];
@@ -135,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const div = item.target;
         diaSelecionadoGlobal = item.target.textContent;
+
         diasSemana.forEach((item) => {
           item.classList.remove("ativo");
         });
@@ -205,5 +212,5 @@ document.addEventListener("DOMContentLoaded", function () {
     botaoEnviar.addEventListener("click", botaoEnviarF);
   }
 
-  enviarDados();
+
 });
