@@ -1,5 +1,6 @@
 async function mostrarAgendamento() {
   try {
+    const host = window.location.hostname
     const response = await fetch("/mostrarClientes");
     const data = await response.json();
     const dia = document.querySelector("#dia");

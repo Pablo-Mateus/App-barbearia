@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const mesAnoTexto = document.getElementById("mes-ano");
   const btnPrev = document.getElementById("prev");
   const btnNext = document.getElementById("next");
-
+  const host = window.location.hostname;
   const diasSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   const meses = [
     { nome: "Janeiro", dias: 31 },
@@ -105,9 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const diaSemana = dataSelecionada.getDay();
         diaSemanaGlobal = dataSelecionada.getDay();
 
-        const response = await fetch(
-          `http://localhost:3000/disponiveis?diaSemana=${diaSemana}`
-        );
+        const response = await fetch(`/disponiveis?diaSemana=${diaSemana}`);
         const data = await response.json();
 
         const botaoHora = document.querySelector(".botao-hora");
@@ -180,13 +178,13 @@ document.addEventListener("DOMContentLoaded", function () {
             horario: horario,
           };
 
-          fetch("http://localhost:3000/criarAgendamento", {
+          fetch(`/criarAgendamento`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
           });
 
-          fetch("http://localhost:3000/removerHorario", {
+          fetch(`/removerHorario`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
@@ -200,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           botaoEnviar.innerText = "Horário agendado com sucesso";
           setTimeout(() => {
-            location.replace("http://localhost:3000/agendamentos");
+            location.replace(`/agendamentos`);
           }, 2000);
         }
 
@@ -211,6 +209,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     botaoEnviar.addEventListener("click", botaoEnviarF);
   }
-
-
 });

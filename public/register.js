@@ -10,9 +10,9 @@ async function enviarDados(e) {
   formulario.forEach((item, indice) => {
     json[indice] = item;
   });
-  // localStorage.setItem("nome", json.name);
   document.cookie = `Nome=${json.name}`;
-  const response = await fetch("http://localhost:3000/auth/register", {
+  const host = window.location.hostname;
+  const response = await fetch(`/auth/register`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(json),

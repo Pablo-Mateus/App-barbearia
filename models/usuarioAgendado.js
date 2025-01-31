@@ -9,6 +9,7 @@ const agendadoSchema = new mongoose.Schema({
   hora: String,
   servico: String,
   horario: String,
+  horarios: Array,
 });
 
 const Agendado = mongoose.model("Agendado", agendadoSchema);

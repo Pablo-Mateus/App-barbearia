@@ -126,6 +126,12 @@ app.post("/removerHorario", async (req, res) => {
       { diaSemana: req.body.diaSemana },
       { $pull: { horasTotais: { $in: arrayFormatado } } }
     );
+    console.log(arrayFormatado);
+    let agendado = await Agendado.findOne({
+      diaSemana: req.body.diaSemana,
+    });
+    agendado.horarios = arrayFormatado;
+    await agendado.save();
     const stringHora = arrayFormatado.toString();
 
     res.status(200).json({ msg: stringHora });
@@ -179,7 +185,9 @@ app.post("/adicionar", async (req, res) => {
         horario.horaFim = minutosFim;
         horario.intervalo = intervaloFormat;
         if (minutosInicio > minutosFim) {
-          res.status(400).json({msg: `Você precisar adicionar o final do expediente de ${item.dia} com um horário maior`});
+          res.status(400).json({
+            msg: `Você precisar adicionar o final do expediente de ${item.dia} com um horário maior`,
+          });
         } else {
           await horario.save();
         }
@@ -315,6 +323,7 @@ app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
 
 app.post("/retomarAgendamento", async (req, res) => {
   const data = JSON.parse(req.body.horarios);
+
   const arrayHorarios = data.msg.split(",");
 
   try {

@@ -3,7 +3,7 @@ async function mostrarAgendamento() {
     const response = await fetch("/mostrarAgendamento");
     const data = await response.json();
     const dia = document.querySelector("#dia");
-  
+
     data.forEach((item) => {
       if (item.mes === 0) {
         item.mes = 1;
@@ -68,6 +68,7 @@ async function mostrarAgendamento() {
             diaSemana: data[0].diaSemana,
             horarios: localStorage.getItem("horarios"),
           };
+         
           try {
             const requisicao = await fetch("/retomarAgendamento", {
               method: "POST",

@@ -42,7 +42,6 @@ select.forEach((item) => {
 
 diasSemana.forEach((item) => {
   let dadosSalvos = JSON.parse(localStorage.getItem(item));
-  console.log(dadosSalvos);
   if (dadosSalvos) {
     let selects = document.querySelectorAll(`.${item}`);
     selects[0].value = dadosSalvos.inicio;
@@ -108,6 +107,10 @@ async function enviarDados(e) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dias),
   });
+
+  const data = await requisicao.json();
+  botao.innerText = data.msg;
+  console.log(data.msg);
 }
 
 botao.addEventListener("click", enviarDados);
