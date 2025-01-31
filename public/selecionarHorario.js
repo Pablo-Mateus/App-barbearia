@@ -20,7 +20,7 @@ const diasSemana = [
 ];
 selectMinutos.forEach((item) => {
   for (let i = 0; i <= 60; i++) {
-    let minutos = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
+    let minutos = i.toString().padStart(2, "0");
     let option = document.createElement("option");
     option.value = `00:${minutos}`;
     option.textContent = `00:${minutos}`;
