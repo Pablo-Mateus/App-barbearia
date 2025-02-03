@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset senha</title>
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+
+  <main>
+    <h1>Reset de senha</h1>
+    <form id="formulario">
+      <div>
+        <input type="hidden" name="token" value="<%=token%>" id="token">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password">
+      </div>
+      <div>
+        <label for="confirmpassword">Confirme sua senha</label>
+        <input type="password" id="confirmpassword" name="confirmpasswordpassword">
+      </div>
+      <button class="botao" type="submit">Redefinir</button>
+      <div class="resposta"></div>
+    </form>
+
+
+  </main>
+
+  <script src="resetSenha.js"></script>
+</body>
+
+
+</html>

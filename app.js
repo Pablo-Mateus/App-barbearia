@@ -15,25 +15,7 @@ const User = require("./models/User");
 const Horario = require("./models/horario.js"); // Importa o modelo
 const Agendado = require("./models/usuarioAgendado.js");
 const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.USER,
-    pass: process.env.PASS,
-  },
-});
-
-async function main() {
-  const info = await transporter.sendMail({
-    from: `<${process.env.USER}>`,
-   
-  });
-}
-
-main().catch(console.error);
+const crypto = require("crypto");
 
 // app.use(cors());
 //Config Json Response
@@ -76,6 +58,77 @@ function redirecionarSeLogado(req, res, next) {
 
 app.get("/definirHorario", (req, res) => {
   res.render("definirHorario");
+});
+
+app.post("/auth/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+
+  if (!email) {
+    return res.status(400).json({ msg: "O email é obrigatório" });
+  }
+
+  let user = await User.findOne({
+    email,
+  });
+
+  if (!user) {
+    res.status(404).json({ msg: "Usuário não encontrado" });
+  }
+
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetTokenExpire = Date.now() + 3600000;
+
+  user.resetToken = resetToken;
+  user.resetTokenExpire = resetTokenExpire;
+  await user.save();
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.USER,
+      pass: process.env.PASS,
+    },
+  });
+  const resetLink = `http://localhost:3000/auth/reset-password/${resetToken}`;
+  await transporter.sendMail({
+    from: `Suporte <${process.env.USER}>`,
+    to: "pablo13mateus@hotmail.com",
+    subject: "Redefinição de senha",
+    html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
+    <a href="${resetLink}">${resetLink}</a>
+    <p>Este link expira em 1 hora.</p>
+    `,
+  });
+
+  res.status(200).json({ msg: "Email de recuperação enviado" });
+});
+
+app.get("/auth/reset-password/:token", async (req, res) => {
+  const token = req.params.token;
+  const user = await User.findOne({
+    resetToken: token,
+    resetTokenExpire: {
+      $gt: Date.now(),
+    },
+  });
+
+  if (!user) {
+    return res.redirect("/login");
+  }
+  res.render("resetSenha", { token });
+});
+
+app.post("/auth/reset-password/:token", async (req, res) => {
+  const token = req.params.token;
+  console.log(token);
+  const { password, confirmpassword } = req.body;
+
+  if (password !== confirmpassword) {
+    return res.status(400).json({ msg: "As senhas não condicem" });
+  }
 });
 
 app.get("/disponiveis", verificarToken, async (req, res) => {

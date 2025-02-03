@@ -1,6 +1,8 @@
 const botao = document.querySelector(".botao");
 const resposta = document.querySelector(".resposta");
 const form = document.getElementById("formulario");
+const resetSenha = document.querySelector(".forgotPass");
+const email = document.querySelector("#email");
 
 async function enviarDados(e) {
   e.preventDefault();
@@ -10,7 +12,6 @@ async function enviarDados(e) {
   formulario.forEach((item, indice) => {
     json[indice] = item;
   });
-  const host = window.location.hostname;
   const response = await fetch(`/auth/login`, {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -27,3 +28,17 @@ async function enviarDados(e) {
 }
 
 formulario.addEventListener("submit", enviarDados);
+
+async function esqueciSenha(e) {
+  console.log(email.value);
+  e.preventDefault();
+  const requisicao = await fetch("/auth/forgot-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: email.value }),
+  });
+  const data = await requisicao.json();
+  resetSenha.innerText = data.msg;
+}
+
+resetSenha.addEventListener("click", esqueciSenha);
