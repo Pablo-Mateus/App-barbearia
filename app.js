@@ -95,7 +95,7 @@ app.post("/auth/forgot-password", async (req, res) => {
   const resetLink = `http://localhost:3000/auth/reset-password/${resetToken}`;
   await transporter.sendMail({
     from: `Suporte <${process.env.USER}>`,
-    to: "pablo13mateus@hotmail.com",
+    to: "",
     subject: "Redefinição de senha",
     html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
     <a href="${resetLink}">${resetLink}</a>
