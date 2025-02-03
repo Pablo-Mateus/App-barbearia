@@ -14,6 +14,26 @@ const cookieParser = require("cookie-parser");
 const User = require("./models/User");
 const Horario = require("./models/horario.js"); // Importa o modelo
 const Agendado = require("./models/usuarioAgendado.js");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASS,
+  },
+});
+
+async function main() {
+  const info = await transporter.sendMail({
+    from: `<${process.env.USER}>`,
+   
+  });
+}
+
+main().catch(console.error);
 
 // app.use(cors());
 //Config Json Response
@@ -126,7 +146,7 @@ app.post("/removerHorario", async (req, res) => {
       { diaSemana: req.body.diaSemana },
       { $pull: { horasTotais: { $in: arrayFormatado } } }
     );
-    console.log(arrayFormatado);
+
     let agendado = await Agendado.findOne({
       diaSemana: req.body.diaSemana,
     });
@@ -322,14 +342,12 @@ app.get("/mostrarAgendamento", verificarToken, async (req, res) => {
 });
 
 app.post("/retomarAgendamento", async (req, res) => {
-  const data = JSON.parse(req.body.horarios);
-
-  const arrayHorarios = data.msg.split(",");
+  let agendado = await Agendado.findOne({ hora: req.body.hora });
 
   try {
     await Horario.updateOne(
       { diaSemana: req.body.diaSemana },
-      { $addToSet: { horasTotais: { $each: arrayHorarios } } }
+      { $addToSet: { horasTotais: { $each: agendado.horarios } } }
     );
 
     const horarios = await Horario.findOne({ diaSemana: req.body.diaSemana });
@@ -453,11 +471,11 @@ app.post("/auth/login", async (req, res) => {
 
   //Check if user exists
   const user = await User.findOne({ email: email });
-  res.cookie("Nome", user.name);
+
   if (!user) {
     return res.status(404).json({ msg: "Usuário não encontado!" });
   }
-
+  res.cookie("Nome", user.name);
   //Check password match
   const checkPassword = await bcrypt.compare(password, user.password);
 

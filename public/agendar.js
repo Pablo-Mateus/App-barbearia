@@ -189,13 +189,6 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
           })
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              localStorage.setItem("horarios", JSON.stringify(data));
-            });
-
           botaoEnviar.innerText = "Horário agendado com sucesso";
           setTimeout(() => {
             location.replace(`/agendamentos`);

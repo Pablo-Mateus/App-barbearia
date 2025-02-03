@@ -1,10 +1,10 @@
 async function mostrarAgendamento() {
   try {
-    const host = window.location.hostname
+    const host = window.location.hostname;
     const response = await fetch("/mostrarClientes");
     const data = await response.json();
     const dia = document.querySelector("#dia");
-    console.log(data);
+
     data.forEach((item) => {
       if (item.mes === 0) {
         item.mes = 1;
@@ -66,14 +66,13 @@ async function mostrarAgendamento() {
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
       listaLi.forEach(async (item) => {
-        const tempoServico = document.querySelector(".tempoAtual").innerText;
-
+        // const tempoServico = document.querySelector(".tempoAtual").innerText;
+        console.log(item);
         if (item.classList.contains("mudarCor")) {
           const informacoes = {
             dia: h2Element.textContent,
             hora: item.textContent,
             diaSemana: data[0].diaSemana,
-            horarios: localStorage.getItem("horarios"),
           };
           try {
             const requisicao = await fetch("/retomarAgendamento", {
