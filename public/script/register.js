@@ -2,6 +2,9 @@ const botao = document.querySelector(".botao");
 const resposta = document.querySelector(".resposta");
 const form = document.getElementById("formulario");
 
+
+
+
 async function enviarDados(e) {
   e.preventDefault();
   const json = {};

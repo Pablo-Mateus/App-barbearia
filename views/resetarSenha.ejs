@@ -14,7 +14,7 @@
     <h1>Reset de senha</h1>
     <form id="formulario">
       <div>
-        <input type="hidden" name="token" value="<%=token%>" id="token">
+        <input type="hidden" value="<%=token%>" id="token">
         <label for="password">Senha</label>
         <input type="password" id="password" name="password">
       </div>
@@ -22,15 +22,15 @@
         <label for="confirmpassword">Confirme sua senha</label>
         <input type="password" id="confirmpassword" name="confirmpasswordpassword">
       </div>
+      <div class="resposta"></div>
       <button class="botao" type="submit">Redefinir</button>
       <div class="resposta"></div>
+
     </form>
-
-
   </main>
 
-  <script src="resetSenha.js"></script>
-</body>
 
+</body>
+<script src="script/resetarSenha.js"></script>
 
 </html>

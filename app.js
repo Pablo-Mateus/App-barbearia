@@ -16,14 +16,13 @@ const Horario = require("./models/horario.js"); // Importa o modelo
 const Agendado = require("./models/usuarioAgendado.js");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-
-// app.use(cors());
+app.use(cors());
 //Config Json Response
 app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 function verificarToken(req, res, next) {
   const token = req.cookies.token;
@@ -57,12 +56,37 @@ function redirecionarSeLogado(req, res, next) {
 }
 
 app.get("/definirHorario", (req, res) => {
-  res.render("definirHorario");
+  const token = req.cookies.token;
+  if (!token) {
+    res.redirect("/login");
+  }
+
+  const decoded = jwt.verify(token, process.env.SECRET);
+  if (decoded.id === "felipe@gmail.com") {
+    res.render("definirHorario");
+  }
+
+  if (decoded.id !== "felipe@gmail.com") {
+    res.redirect("/logado");
+  }
 });
 
-app.post("/auth/forgot-password", async (req, res) => {
+app.get("/reset-password", async (req, res) => {
+  const token = req.query.token;
+  const user = await User.findOne({
+    resetToken: token,
+    resetTokenExpire: {
+      $gt: Date.now(),
+    },
+  });
+  if (!user) {
+    res.redirect("/login");
+  }
+  res.render("resetarSenha", { token });
+});
+
+app.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
-  console.log(email);
 
   if (!email) {
     return res.status(400).json({ msg: "O email é obrigatório" });
@@ -76,58 +100,66 @@ app.post("/auth/forgot-password", async (req, res) => {
     res.status(404).json({ msg: "Usuário não encontrado" });
   }
 
-  const resetToken = crypto.randomBytes(32).toString("hex");
-  const resetTokenExpire = Date.now() + 3600000;
+  if (user) {
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetTokenExpire = Date.now() + 3600000;
+    user.resetToken = resetToken;
+    user.resetTokenExpire = resetTokenExpire;
+    await user.save();
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    });
+    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+    await transporter.sendMail({
+      from: `Suporte <${process.env.USER}>`,
+      to: "<pablo13mateus@hotmail.com>",
+      subject: "Redefinição de senha",
+      html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
+      <a href="${resetLink}">${resetLink}</a>
+      <p>Este link expira em 1 hora.</p>
+      `,
+    });
 
-  user.resetToken = resetToken;
-  user.resetTokenExpire = resetTokenExpire;
-  await user.save();
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.USER,
-      pass: process.env.PASS,
-    },
-  });
-  const resetLink = `http://localhost:3000/auth/reset-password/${resetToken}`;
-  await transporter.sendMail({
-    from: `Suporte <${process.env.USER}>`,
-    to: "",
-    subject: "Redefinição de senha",
-    html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
-    <a href="${resetLink}">${resetLink}</a>
-    <p>Este link expira em 1 hora.</p>
-    `,
-  });
-
-  res.status(200).json({ msg: "Email de recuperação enviado" });
-});
-
-app.get("/auth/reset-password/:token", async (req, res) => {
-  const token = req.params.token;
-  const user = await User.findOne({
-    resetToken: token,
-    resetTokenExpire: {
-      $gt: Date.now(),
-    },
-  });
-
-  if (!user) {
-    return res.redirect("/login");
+    res.status(200).json({ msg: "Email de recuperação enviado" });
   }
-  res.render("resetSenha", { token });
 });
 
-app.post("/auth/reset-password/:token", async (req, res) => {
-  const token = req.params.token;
-  console.log(token);
+app.post("/reset-password", async (req, res) => {
+  const token = req.query.token;
+
   const { password, confirmpassword } = req.body;
 
   if (password !== confirmpassword) {
     return res.status(400).json({ msg: "As senhas não condicem" });
+  }
+  try {
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ msg: "Token inválido ou expirado" });
+    }
+
+    const salt = await bcrypt.genSalt(12);
+    user.password = await bcrypt.hash(password, salt);
+    user.resetToken = undefined;
+    user.resetTokenExpire = undefined;
+    await user.save();
+
+    res
+      .status(200)
+      .json({ msg: "Senha redefinida com sucesso!", redirect: "/login" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Erro ao redifinir a senha" });
   }
 });
 
@@ -141,18 +173,6 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
         .status(404)
         .json({ msg: "Nenhum horário disponível para este dia." });
     }
-
-    // if (diaSemana == 0) {
-    //   return res
-    //     .status(404)
-    //     .json({ msg: "Nenhum horário disponível para este dia." });
-    // }
-
-    // if (diaSemana == 1) {
-    //   return res
-    //     .status(404)
-    //     .json({ msg: "Nenhum horário disponível para este dia." });
-    // }
 
     res.json({ msg: horarios.horasTotais });
   } catch (err) {
@@ -467,6 +487,26 @@ app.post("/auth/register", async (req, res) => {
 
   if (password !== confirmpassword) {
     return res.status(422).json({ msg: "As senhas não conferem" });
+  }
+
+  if (password.length < 10) {
+    return res
+      .status(422)
+      .json({ msg: "A senha não atende aos requisitos minimos" });
+  }
+
+  if (
+    !password.includes("!") ||
+    !password.includes("@") ||
+    !password.includes("#") ||
+    !password.includes("$") ||
+    !password.includes("%") ||
+    !password.includes("&") ||
+    !password.includes("*")
+  ) {
+    return res
+      .status(422)
+      .json({ msg: "A senha deve conter um caractere especial" });
   }
 
   try {

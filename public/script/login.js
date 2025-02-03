@@ -4,6 +4,7 @@ const form = document.getElementById("formulario");
 const resetSenha = document.querySelector(".forgotPass");
 const email = document.querySelector("#email");
 
+
 async function enviarDados(e) {
   e.preventDefault();
   const json = {};
@@ -30,15 +31,38 @@ async function enviarDados(e) {
 formulario.addEventListener("submit", enviarDados);
 
 async function esqueciSenha(e) {
-  console.log(email.value);
   e.preventDefault();
-  const requisicao = await fetch("/auth/forgot-password", {
+  resetSenha.innerText = "Aguardando...";
+  const requisicao = await fetch("/forgot-password", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email: email.value }),
   });
   const data = await requisicao.json();
   resetSenha.innerText = data.msg;
+  setTimeout(() => {
+    resetSenha.innerText = "Esqueci minha senha";
+  }, 1500);
 }
 
 resetSenha.addEventListener("click", esqueciSenha);
+
+// const password = document.querySelector("#password");
+// const confirmpassword = document.querySelector("#resetpassword");
+
+// const token = document.querySelector("#token");
+// const botao = document.querySelector(".botao");
+
+// async function redefinir(e) {
+//   e.preventDefault();
+//   const requisicao = await fetch(`/auth/reset-password/:${token.value}`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       password: password.value,
+//       confirmpassword: confirmpassword.value,
+//     }),
+//   });
+// }
+
+// botao.addEventListener("click", redefinir);
