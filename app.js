@@ -118,7 +118,7 @@ app.post("/forgot-password", async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "<pablo13mateus@hotmail.com>",
+      to: "",
       subject: "Redefinição de senha",
       html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
       <a href="${resetLink}">${resetLink}</a>
@@ -492,18 +492,10 @@ app.post("/auth/register", async (req, res) => {
   if (password.length < 10) {
     return res
       .status(422)
-      .json({ msg: "A senha não atende aos requisitos minimos" });
+      .json({ msg: "A senha deve conter no mínimo 10 caracteres" });
   }
 
-  if (
-    !password.includes("!") ||
-    !password.includes("@") ||
-    !password.includes("#") ||
-    !password.includes("$") ||
-    !password.includes("%") ||
-    !password.includes("&") ||
-    !password.includes("*")
-  ) {
+  if (!/[!@#$%&*]/.test(password)) {
     return res
       .status(422)
       .json({ msg: "A senha deve conter um caractere especial" });
@@ -536,10 +528,10 @@ app.post("/auth/register", async (req, res) => {
     const decoded = jwt.verify(token, process.env.SECRET);
 
     if (decoded.id === "felipe@gmail.com") {
-      res.json({ redirect: "/logadoBarbeiro" });
+      res.status(200).json({ redirect: "/logadoBarbeiro" });
     }
     if (decoded.id !== "felipe@gmail.com") {
-      res.json({ redirect: "/logado" });
+      res.status(200).json({ redirect: "/logado" });
     }
   } catch (error) {
     console.log(error);

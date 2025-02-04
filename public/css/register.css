@@ -105,9 +105,11 @@ form div {
 }
 
 .resposta {
-  color: red;
+  color: #fff;
   text-transform: uppercase;
   margin-top: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
 }
 
 .divContainer {
@@ -239,4 +241,7 @@ a.forgotPass {
 
 .observacao {
   margin-top: 30px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
 }
