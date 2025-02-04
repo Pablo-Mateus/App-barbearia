@@ -94,8 +94,42 @@ async function mostrarAgendamento() {
         }
       });
     }
+
+    async function aceitarAgendamento(botao) {
+      botao.preventDefault();
+      const h2Element = document
+        .querySelector("li.mudarCor")
+        .closest("div").previousSibling;
+      listaLi.forEach(async (item) => {
+        const tempoServico = document.querySelector(".tempoAtual").innerText;
+
+        if (item.classList.contains("mudarCor")) {
+          const informacoes = {
+            dia: h2Element.textContent,
+            hora: item.textContent,
+            diaSemana: data[0].diaSemana,
+            horarios: localStorage.getItem("horarios"),
+          };
+
+          try {
+            const requisicao = await fetch("/aceitarAgendamento", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(informacoes),
+            });
+            const data = await requisicao.json();
+            botaoEnviar.innerHTML = data.msg;
+            
+          } catch (err) {
+            botaoEnviar.innerHTML = err;
+          }
+        }
+      });
+    }
     const botaoEnviar = document.querySelector("#data-hora");
     botaoEnviar.addEventListener("click", removerHora);
+    const botaoAceitar = document.querySelector("#agendamentoAceito");
+    botaoAceitar.addEventListener("cick", aceitarAgendamento);
   } catch (err) {
     console.log(err);
   }

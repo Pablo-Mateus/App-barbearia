@@ -55,6 +55,15 @@ function redirecionarSeLogado(req, res, next) {
   }
 }
 
+app.post("/aceitarAgendamento", async (req, res) => {
+  let agendado = await Agendado.findOne({
+    hora: req.body.hora,
+  });
+
+  agendado.status = "aceito";
+  await agendado.save();
+});
+
 app.get("/definirHorario", (req, res) => {
   const token = req.cookies.token;
   if (!token) {
@@ -118,7 +127,7 @@ app.post("/forgot-password", async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "<pablo13mateus@hotmail.com>",
+      to: "",
       subject: "Redefinição de senha",
       html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
       <a href="${resetLink}">${resetLink}</a>
