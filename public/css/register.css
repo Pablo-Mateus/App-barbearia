@@ -217,8 +217,13 @@ ul #dia {
   display: block !important;
 }
 
-#data-hora {
-  display: flex;
+.desativar {
+  display: block !important;
+}
+
+#data-hora,
+#agendamentoAceito {
+  display: block;
   justify-content: center;
   background-color: #1e577a;
   padding: 15px;
@@ -244,4 +249,9 @@ a.forgotPass {
   font-family: "Roboto", sans-serif;
   font-weight: bold;
   font-size: 1rem;
+}
+
+.div-status {
+  display: flex;
+  justify-content: space-between;
 }

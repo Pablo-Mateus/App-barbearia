@@ -3,7 +3,7 @@ async function mostrarAgendamento() {
     const response = await fetch("/mostrarAgendamento");
     const data = await response.json();
     const dia = document.querySelector("#dia");
-
+    console.log(data);
     data.forEach((item) => {
       if (item.mes === 0) {
         item.mes = 1;
@@ -36,8 +36,16 @@ async function mostrarAgendamento() {
       divContainer.appendChild(novaDiv);
       novaDiv.appendChild(novoLi);
       divContainer.appendChild(servico);
-
       divContainer.appendChild(tempo);
+      const status = document.createElement("h2");
+      if (item.status === "pendente") {
+        status.innerText = "Status: Aguardando aceite";
+      } else if (item.status === "true") {
+        status.innerText = "Status: Horário confirmado";
+      } else if (item.status === "false") {
+        status.innerText = "Status: Horário cancelado";
+      }
+      divContainer.appendChild(status);
     });
     const listaLi = document.querySelectorAll(".container-dia ul div li");
 
@@ -68,7 +76,7 @@ async function mostrarAgendamento() {
             diaSemana: data[0].diaSemana,
             horarios: localStorage.getItem("horarios"),
           };
-         
+
           try {
             const requisicao = await fetch("/retomarAgendamento", {
               method: "POST",

@@ -118,7 +118,7 @@ app.post("/forgot-password", async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "",
+      to: "<pablo13mateus@hotmail.com>",
       subject: "Redefinição de senha",
       html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
       <a href="${resetLink}">${resetLink}</a>
@@ -134,6 +134,17 @@ app.post("/reset-password", async (req, res) => {
   const token = req.query.token;
 
   const { password, confirmpassword } = req.body;
+  if (password.length < 10) {
+    return res
+      .status(422)
+      .json({ msg: "A senha deve conter no mínimo 10 caracteres" });
+  }
+
+  if (!/[!@#$%&*]/.test(password)) {
+    return res
+      .status(422)
+      .json({ msg: "A senha deve conter um caractere especial" });
+  }
 
   if (password !== confirmpassword) {
     return res.status(400).json({ msg: "As senhas não condicem" });
@@ -460,9 +471,11 @@ app.post("/criarAgendamento", async (req, res) => {
       hora: req.body.hora,
       servico: req.body.servico,
       horario: req.body.horario,
+      status: "pendente",
     });
 
     await horaAgendada.save();
+
     res.status(200).json({ msg: "Horário agendado com sucesso" });
   } catch (err) {
     console.log(err);

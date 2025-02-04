@@ -66,7 +66,6 @@ async function mostrarAgendamento() {
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
       listaLi.forEach(async (item) => {
-        // const tempoServico = document.querySelector(".tempoAtual").innerText;
         console.log(item);
         if (item.classList.contains("mudarCor")) {
           const informacoes = {
