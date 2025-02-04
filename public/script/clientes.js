@@ -43,8 +43,22 @@ async function mostrarAgendamento() {
       divContainer.appendChild(novaDiv);
       novaDiv.appendChild(novoLi);
       divContainer.appendChild(servico);
-
       divContainer.appendChild(tempo);
+      if (item.status === "pendente") {
+        const divStatus = document.createElement("div");
+        divStatus.classList.add("div-status");
+        const negar = document.createElement("a");
+        const aceitar = document.createElement("a");
+        divContainer.appendChild(divStatus);
+        negar.id = "data-hora";
+        aceitar.id = "agendamentoAceito";
+        negar.innerText = "cancelar";
+        aceitar.innerText = "aceitar";
+        negar.setAttribute("href", "''");
+        aceitar.setAttribute("href", "''");
+        divStatus.appendChild(negar);
+        divStatus.appendChild(aceitar);
+      }
     });
     const listaLi = document.querySelectorAll(".container-dia ul div li");
 
@@ -90,8 +104,45 @@ async function mostrarAgendamento() {
         }
       });
     }
+
+    async function aceitarAgendamento(botao) {
+      botao.preventDefault();
+      const h2Element = document
+        .querySelector("li.mudarCor")
+        .closest("div").previousSibling;
+      listaLi.forEach(async (item) => {
+        const tempoServico = document.querySelector(".tempoAtual").innerText;
+
+        if (item.classList.contains("mudarCor")) {
+          const informacoes = {
+            dia: h2Element.textContent,
+            hora: item.textContent,
+            diaSemana: data[0].diaSemana,
+            horarios: localStorage.getItem("horarios"),
+            status: "true",
+          };
+
+          try {
+            const requisicao = await fetch("/aceitarAgendamento", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(informacoes),
+            });
+            const data = await requisicao.json();
+            botaoAceitar.innerHTML = data.msg;
+            setTimeout(() => {
+              window.location.replace("/agendamentos");
+            }, 2000);
+          } catch (err) {
+            botaoAceitar.innerHTML = err;
+          }
+        }
+      });
+    }
     const botaoEnviar = document.querySelector("#data-hora");
     botaoEnviar.addEventListener("click", removerHora);
+    const botaoAceitar = document.querySelector("#agendamentoAceito");
+    botaoAceitar.addEventListener("click", aceitarAgendamento);
   } catch (err) {
     console.log(err);
   }

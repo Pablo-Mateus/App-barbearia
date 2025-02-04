@@ -60,8 +60,10 @@ app.post("/aceitarAgendamento", async (req, res) => {
     hora: req.body.hora,
   });
 
-  agendado.status = "aceito";
+  agendado.status = "true";
   await agendado.save();
+
+  res.status(200).json({ msg: "Agendamento aceito com sucesso!" });
 });
 
 app.get("/definirHorario", (req, res) => {

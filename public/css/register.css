@@ -118,6 +118,10 @@ form div {
   justify-items: center;
 }
 
+.divContainer h2 {
+  margin-top: 4px;
+}
+
 ul {
   padding: 0px;
   margin: 0px;
@@ -178,7 +182,7 @@ ul #dia {
 #dia {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 60px;
 }
 
 .mudarCor {
