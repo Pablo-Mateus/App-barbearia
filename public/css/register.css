@@ -116,6 +116,10 @@ form div {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
+  border: 1px solid #8ebbe0;
+  background: #79b1de;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .divContainer h2 {
@@ -142,11 +146,12 @@ ul {
 }
 
 #dia h2 {
-  padding: 6px;
-  background-color: #11374e;
+  padding: 3px;
+  background-color: #3787c8;
   border-radius: 6px;
-  font-family: Arial;
-  color: #fff;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.3rem;
+  color: #000;
   width: 100%;
   text-align: center;
 }
@@ -162,11 +167,11 @@ ul {
   font-family: Arial;
   color: #000;
   background-color: #fff;
-  padding: 6px;
+  padding: 3px;
   border-radius: 6px;
   cursor: pointer;
   user-select: none;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
 }
@@ -229,9 +234,10 @@ ul #dia {
 #agendamentoAceito {
   display: block;
   justify-content: center;
-  background-color: #1e577a;
-  padding: 15px;
-  border-radius: 6px;
+  background-color: #69aee5;
+  border: 0.5px solid #0160ae;
+  padding: 8px;
+  border-radius: 3px;
   font-family: Arial;
   font-weight: bold;
   font-size: 1.3rem;
@@ -258,4 +264,5 @@ a.forgotPass {
 .div-status {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }

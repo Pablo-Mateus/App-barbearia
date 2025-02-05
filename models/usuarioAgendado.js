@@ -11,7 +11,9 @@ const agendadoSchema = new mongoose.Schema({
   horario: String,
   horarios: Array,
   status: String,
+  schedule: Date,
 });
+
 
 const Agendado = mongoose.model("Agendado", agendadoSchema);
 module.exports = Agendado;

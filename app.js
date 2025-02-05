@@ -24,6 +24,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+setInterval(async () => {
+  let agendado = await Agendado.find({});
+
+  for (const item of agendado) {
+    const dataAtual = new Date();
+    const dataFinal = new Date();
+    dataFinal.setDate(item.schedule.getDate() + 7);
+    if (dataAtual >= dataFinal) {
+      await Agendado.deleteOne({ schedule: item.schedule });
+    }
+  }
+}, 1000 * 60 * 60);
+
 function verificarToken(req, res, next) {
   const token = req.cookies.token;
 
@@ -61,6 +74,7 @@ app.post("/aceitarAgendamento", async (req, res) => {
   });
 
   agendado.status = "true";
+
   await agendado.save();
 
   res.status(200).json({ msg: "Agendamento aceito com sucesso!" });
@@ -463,6 +477,13 @@ app.post("/retomarAgendamento", async (req, res) => {
 
 app.post("/criarAgendamento", async (req, res) => {
   const token = req.cookies.token;
+  console.log(req.body);
+  const diaFormat = req.body.dia.padStart(2, "0");
+  const mesFormat = req.body.mes + 1;
+  mesFormat.toString().padStart(2, "0");
+  const ano = req.body.ano.toString();
+
+  const data = new Date(`${ano}-${mesFormat}-${diaFormat}`);
 
   if (!token) {
     console.log("Token não encontrado");
@@ -483,6 +504,7 @@ app.post("/criarAgendamento", async (req, res) => {
       servico: req.body.servico,
       horario: req.body.horario,
       status: "pendente",
+      schedule: data,
     });
 
     await horaAgendada.save();

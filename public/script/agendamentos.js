@@ -5,9 +5,7 @@ async function mostrarAgendamento() {
     const dia = document.querySelector("#dia");
     console.log(data);
     data.forEach((item) => {
-      if (item.mes === 0) {
-        item.mes = 1;
-      }
+      item.mes += 1;
       const divContainer = document.createElement("div");
       divContainer.classList.add("divContainer");
       const novoDia = document.createElement("h2");
@@ -96,7 +94,6 @@ async function mostrarAgendamento() {
     }
     const botaoEnviar = document.querySelector("#data-hora");
     botaoEnviar.addEventListener("click", removerHora);
-   
   } catch (err) {
     console.log(err);
   }
