@@ -563,7 +563,7 @@ app.post("/criarAgendamento", async (req, res) => {
 
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "<pablo13mateus@hotmail.com>",
+      to: "",
       subject: `Agendamento ${req.cookies.Nome}`,
       html: ` <h1 style="font-family:Arial; font-size: 1.2rem; font-weight:bold">Nome: <span>${
         req.cookies.Nome[0].toUpperCase() + req.cookies.Nome.substring(1)
