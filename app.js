@@ -511,7 +511,7 @@ app.post("/criarAgendamento", async (req, res) => {
 
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "<pablo13mateus@hotmail.com>",
+      to: "",
       subject: `Agendamento ${req.cookies.Nome}`,
       html: ` <h1>Nome: ${req.cookies.Nome}</h1>
             <h2>Tipo de serviço: ${req.body.servico}</h2>
