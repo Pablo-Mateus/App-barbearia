@@ -480,7 +480,7 @@ app.post("/criarAgendamento", async (req, res) => {
   console.log(req.body);
   const diaFormat = req.body.dia.padStart(2, "0");
   const mesFormat = req.body.mes + 1;
-  mesFormat.toString().padStart(2, "0");
+  const mesString = mesFormat.toString().padStart(2, "0");
   const ano = req.body.ano.toString();
 
   const data = new Date(`${ano}-${mesFormat}-${diaFormat}`);
@@ -493,7 +493,28 @@ app.post("/criarAgendamento", async (req, res) => {
   const nomeUsuario = decoded.id;
   const diaSemana = parseInt(req.body.diaSemana);
   const horaAtual = req.body.hora;
+
   try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `Suporte <${process.env.USER}>`,
+      to: "<gabriel-k3@live.com",
+      subject: `Agendamento ${req.cookies.Nome}`,
+      html: ` <h1>Nome: ${req.cookies.Nome}</h1>
+            <h2>Tipo de serviço: ${req.body.servico}</h2>
+            <h2>Horário: ${req.body.hora}</h2>
+            <h2>Data: ${diaFormat}/${mesString}/${ano}</h2>`,
+    });
+
     const horaAgendada = new Agendado({
       name: req.cookies.Nome,
       diaSemana: req.body.diaSemana,

@@ -150,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const botaoEnviar = document.querySelector("#data-hora");
     async function botaoEnviarF(item) {
       item.preventDefault();
+      botaoEnviar.innerText = "Aguarde";
       function getqueryParams() {
         const params = new URLSearchParams(window.location.search);
         return {
@@ -160,13 +161,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const { servico, horario } = getqueryParams();
 
       const listaDiv = document.querySelectorAll(".horas div");
-      listaDiv.forEach((item) => {
+      for (const item of listaDiv) {
         if (
           item.classList.contains("ativo2") &&
           servico !== null &&
           horario !== null
         ) {
           const hora = item.textContent;
+          console.log(item.textContent);
           const informacoes = {
             name: document.cookie.name,
             diaSemana: diaSemanaGlobal,
@@ -178,17 +180,18 @@ document.addEventListener("DOMContentLoaded", function () {
             horario: horario,
           };
 
-          fetch(`/criarAgendamento`, {
+          await fetch(`/criarAgendamento`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
           });
 
-          fetch(`/removerHorario`, {
+          await fetch(`/removerHorario`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(informacoes),
-          })
+          });
+
           botaoEnviar.innerText = "Horário agendado com sucesso";
           setTimeout(() => {
             location.replace(`/agendamentos`);
@@ -198,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (servico === null && horario === null) {
           botaoEnviar.innerText = "Você precisa selecionar um serviço";
         }
-      });
+      }
     }
     botaoEnviar.addEventListener("click", botaoEnviarF);
   }

@@ -44,19 +44,20 @@ async function mostrarAgendamento() {
       novaDiv.appendChild(novoLi);
       divContainer.appendChild(servico);
       divContainer.appendChild(tempo);
+      const negar = document.createElement("a");
+
+      negar.innerText = "cancelar";
+      const divStatus = document.createElement("div");
+      negar.id = "negar";
+      negar.setAttribute("href", "''");
+      divStatus.classList.add("div-status");
+      divStatus.appendChild(negar);
+      divContainer.appendChild(divStatus);
       if (item.status === "pendente") {
-        const divStatus = document.createElement("div");
-        divStatus.classList.add("div-status");
-        const negar = document.createElement("a");
         const aceitar = document.createElement("a");
-        divContainer.appendChild(divStatus);
-        negar.id = "data-hora";
         aceitar.id = "agendamentoAceito";
-        negar.innerText = "cancelar";
         aceitar.innerText = "aceitar";
-        negar.setAttribute("href", "''");
         aceitar.setAttribute("href", "''");
-        divStatus.appendChild(negar);
         divStatus.appendChild(aceitar);
       }
     });
@@ -129,6 +130,9 @@ async function mostrarAgendamento() {
               body: JSON.stringify(informacoes),
             });
             const data = await requisicao.json();
+            const divStatus = document.querySelector(".div-status");
+            const negar = document.querySelector("#negar");
+            divStatus.removeChild(negar);
             botaoAceitar.innerHTML = data.msg;
             setTimeout(() => {
               window.location.replace("/agendamentos");
@@ -139,7 +143,7 @@ async function mostrarAgendamento() {
         }
       });
     }
-    const botaoEnviar = document.querySelector("#data-hora");
+    const botaoEnviar = document.querySelector("#negar");
     botaoEnviar.addEventListener("click", removerHora);
     const botaoAceitar = document.querySelector("#agendamentoAceito");
     botaoAceitar.addEventListener("click", aceitarAgendamento);

@@ -92,7 +92,7 @@ async function mostrarAgendamento() {
         }
       });
     }
-    const botaoEnviar = document.querySelector("#data-hora");
+    const botaoEnviar = document.querySelector("#negar");
     botaoEnviar.addEventListener("click", removerHora);
   } catch (err) {
     console.log(err);

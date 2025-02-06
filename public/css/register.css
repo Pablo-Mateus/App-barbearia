@@ -122,10 +122,6 @@ form div {
   border-radius: 5px;
 }
 
-.divContainer h2 {
-  margin-top: 4px;
-}
-
 ul {
   padding: 0px;
   margin: 0px;
@@ -148,7 +144,7 @@ ul {
 #dia h2 {
   padding: 3px;
   background-color: #3787c8;
-  border-radius: 6px;
+  border-radius: 2px;
   font-family: "Roboto", sans-serif;
   font-size: 1.3rem;
   color: #000;
@@ -168,7 +164,7 @@ ul {
   color: #000;
   background-color: #fff;
   padding: 3px;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
   user-select: none;
   font-size: 1.2rem;
@@ -230,7 +226,7 @@ ul #dia {
   display: block !important;
 }
 
-#data-hora,
+#negar,
 #agendamentoAceito {
   display: block;
   justify-content: center;
@@ -244,6 +240,7 @@ ul #dia {
   text-align: center;
   text-decoration: none;
   color: #fff;
+  margin-top: 10px;
 }
 
 a.forgotPass {
