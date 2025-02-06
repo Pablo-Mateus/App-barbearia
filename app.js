@@ -491,6 +491,10 @@ app.post("/criarAgendamento", async (req, res) => {
 
   const decoded = jwt.verify(token, process.env.SECRET);
   const nomeUsuario = decoded.id;
+  let user = await User.findOne({
+    email: nomeUsuario,
+  });
+
   const diaSemana = parseInt(req.body.diaSemana);
   const horaAtual = req.body.hora;
 
@@ -507,12 +511,14 @@ app.post("/criarAgendamento", async (req, res) => {
 
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "<gabriel-k3@live.com",
+      to: "<pablo13mateus@hotmail.com>",
       subject: `Agendamento ${req.cookies.Nome}`,
       html: ` <h1>Nome: ${req.cookies.Nome}</h1>
             <h2>Tipo de serviço: ${req.body.servico}</h2>
             <h2>Horário: ${req.body.hora}</h2>
-            <h2>Data: ${diaFormat}/${mesString}/${ano}</h2>`,
+            <h2>Data: ${diaFormat}/${mesString}/${ano}</h2>
+            <h3>Telefone: ${user.phone}</h3>
+            `,
     });
 
     const horaAgendada = new Agendado({
@@ -539,7 +545,7 @@ app.post("/criarAgendamento", async (req, res) => {
 //Register User
 app.post("/auth/register", async (req, res) => {
   const { name, email, password, confirmpassword } = req.body;
-
+  console.log(req.body);
   if (!name) {
     return res.json({ msg: "O nome é obrigatório" });
   }
@@ -584,6 +590,7 @@ app.post("/auth/register", async (req, res) => {
     const user = new User({
       name,
       email,
+      phone: req.body.tel,
       password: passwordHash,
     });
     await user.save();
