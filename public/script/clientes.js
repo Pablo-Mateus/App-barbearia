@@ -80,7 +80,7 @@ async function mostrarAgendamento() {
       const h2Element = document
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
-      listaLi.forEach(async (item) => {
+      for (const item of listaLi) {
         console.log(item);
         if (item.classList.contains("mudarCor")) {
           const informacoes = {
@@ -103,7 +103,7 @@ async function mostrarAgendamento() {
             botaoEnviar.innerHTML = err;
           }
         }
-      });
+      }
     }
 
     async function aceitarAgendamento(botao) {

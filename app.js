@@ -69,15 +69,43 @@ function redirecionarSeLogado(req, res, next) {
 }
 
 app.post("/aceitarAgendamento", async (req, res) => {
-  let agendado = await Agendado.findOne({
-    hora: req.body.hora,
-  });
+  try {
+    let agendado = await Agendado.findOne({
+      hora: req.body.hora,
+    });
 
-  agendado.status = "true";
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    });
 
-  await agendado.save();
+    const mes = agendado.mes + 1;
 
-  res.status(200).json({ msg: "Agendamento aceito com sucesso!" });
+    await transporter.sendMail({
+      from: `Suporte <${process.env.USER}>`,
+      to: `${agendado.email}`,
+      subject: "Confirmação de horário",
+      html: `<p>Seu horário para o dia ${agendado.dia
+        .toString()
+        .padStart(2, "0")}/${mes.toString().padStart(2, "0")}/${
+        agendado.ano
+      } às ${agendado.hora} foi confirmado.</p>
+    `,
+    });
+
+    agendado.status = "true";
+
+    await agendado.save();
+
+    res.status(200).json({ msg: "Agendamento aceito com sucesso!" });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 app.get("/definirHorario", (req, res) => {
@@ -468,6 +496,30 @@ app.post("/retomarAgendamento", async (req, res) => {
     });
     await horarios.save();
 
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    });
+
+    const mes = agendado.mes + 1;
+
+    await transporter.sendMail({
+      from: `Suporte <${process.env.USER}>`,
+      to: `${agendado.email}`,
+      subject: "Confirmação de horário",
+      html: `<p>Seu horário para o dia ${agendado.dia
+        .toString()
+        .padStart(2, "0")}/${mes.toString().padStart(2, "0")}/${
+        agendado.ano
+      } às ${agendado.hora} foi cancelado.</p>
+    `,
+    });
+
     await Agendado.deleteOne({ hora: req.body.hora });
     res.status(200).json({ msg: "Horário deletado com sucesso" });
   } catch (err) {
@@ -511,13 +563,21 @@ app.post("/criarAgendamento", async (req, res) => {
 
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "",
+      to: "<pablo13mateus@hotmail.com>",
       subject: `Agendamento ${req.cookies.Nome}`,
-      html: ` <h1>Nome: ${req.cookies.Nome}</h1>
-            <h2>Tipo de serviço: ${req.body.servico}</h2>
-            <h2>Horário: ${req.body.hora}</h2>
-            <h2>Data: ${diaFormat}/${mesString}/${ano}</h2>
-            <h3>Telefone: ${user.phone}</h3>
+      html: ` <h1 style="font-family:Arial; font-size: 1.2rem; font-weight:bold">Nome: <span>${
+        req.cookies.Nome[0].toUpperCase() + req.cookies.Nome.substring(1)
+      }</span></h1>
+            <h2 style="font-family:Arial; font-size: 1rem; font-weight:bold">Tipo de serviço: <span>${
+              req.body.servico
+            }</span></h2>
+            <h2 style="font-family:Arial; font-size: 1rem; font-weight:bold">Horário: <span>${
+              req.body.hora
+            }</span></h2>
+            <h2 style="font-family:Arial; font-size: 1rem; font-weight:bold">Data: <span>${diaFormat}/${mesString}/${ano}</span></h2>
+            <h3 style="font-family:Arial; font-size: 0.9rem; font-weight:bold">Telefone:<span> ${
+              user.phone
+            }</span></h3>
             `,
     });
 
@@ -532,6 +592,7 @@ app.post("/criarAgendamento", async (req, res) => {
       horario: req.body.horario,
       status: "pendente",
       schedule: data,
+      email: user.email,
     });
 
     await horaAgendada.save();
@@ -648,7 +709,10 @@ app.post("/auth/login", async (req, res) => {
       {
         id: user.email,
       },
-      secret
+      secret,
+      {
+        expiresIn: "1h",
+      }
     );
     res.cookie("token", token, { httpOnly: true });
     const decoded = jwt.verify(token, process.env.SECRET);
