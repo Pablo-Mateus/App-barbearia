@@ -171,7 +171,7 @@ app.post("/forgot-password", async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "",
+      to: `${user.email}`,
       subject: "Redefinição de senha",
       html: `<p>Para redefinir sua senha, clique no link abaixo: </p>
       <a href="${resetLink}">${resetLink}</a>
@@ -255,10 +255,15 @@ app.post("/removerHorario", async (req, res) => {
     const arrayMinutes = [];
     horarioConvertido = arrayHora[0] * 60 + arrayHora[1];
 
-    horarios.horasTotais.forEach((item, indice) => {
+    for (const [indice, item] of horarios.horasTotais.entries()) {
       const [hora, minuto] = item.split(":").map(Number);
       arrayMinutes[indice] = hora * 60 + minuto;
-    });
+    }
+
+    // horarios.horasTotais.forEach((item, indice) => {
+    //   const [hora, minuto] = item.split(":").map(Number);
+    //   arrayMinutes[indice] = hora * 60 + minuto;
+    // });
     const tempoTotal = horarioConvertido + tempoServico;
     const novoArray = [];
     const posicaoHora = arrayMinutes.indexOf(horarioConvertido);
@@ -271,13 +276,21 @@ app.post("/removerHorario", async (req, res) => {
 
     const arrayFormatado = [];
     let horaInteira = 0;
-    novoArray.forEach((item, index) => {
+    for (const [index, item] of novoArray.entries()) {
       const horaInteira = Math.floor(item / 60);
       const minutosRestantes = item % 60;
       arrayFormatado.push(
         `${horaInteira}:${minutosRestantes.toString().padStart(2, "0")}`
       );
-    });
+    }
+
+    // novoArray.forEach((item, index) => {
+    //   const horaInteira = Math.floor(item / 60);
+    //   const minutosRestantes = item % 60;
+    //   arrayFormatado.push(
+    //     `${horaInteira}:${minutosRestantes.toString().padStart(2, "0")}`
+    //   );
+    // });
 
     await Horario.updateOne(
       { diaSemana: req.body.diaSemana },
@@ -285,8 +298,9 @@ app.post("/removerHorario", async (req, res) => {
     );
 
     let agendado = await Agendado.findOne({
-      diaSemana: req.body.diaSemana,
+      hora: req.body.hora,
     });
+    console.log(arrayFormatado);
     agendado.horarios = arrayFormatado;
     await agendado.save();
     const stringHora = arrayFormatado.toString();
@@ -529,7 +543,6 @@ app.post("/retomarAgendamento", async (req, res) => {
 
 app.post("/criarAgendamento", async (req, res) => {
   const token = req.cookies.token;
-  console.log(req.body);
   const diaFormat = req.body.dia.padStart(2, "0");
   const mesFormat = req.body.mes + 1;
   const mesString = mesFormat.toString().padStart(2, "0");
@@ -563,7 +576,7 @@ app.post("/criarAgendamento", async (req, res) => {
 
     await transporter.sendMail({
       from: `Suporte <${process.env.USER}>`,
-      to: "",
+      to: `${user.email}`,
       subject: `Agendamento ${req.cookies.Nome}`,
       html: ` <h1 style="font-family:Arial; font-size: 1.2rem; font-weight:bold">Nome: <span>${
         req.cookies.Nome[0].toUpperCase() + req.cookies.Nome.substring(1)

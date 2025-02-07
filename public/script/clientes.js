@@ -5,7 +5,7 @@ async function mostrarAgendamento() {
     const data = await response.json();
     const dia = document.querySelector("#dia");
 
-    data.forEach((item) => {
+    for (const item of data) {
       if (item.mes === 0) {
         item.mes = 1;
       }
@@ -60,7 +60,7 @@ async function mostrarAgendamento() {
         aceitar.setAttribute("href", "''");
         divStatus.appendChild(aceitar);
       }
-    });
+    }
     const listaLi = document.querySelectorAll(".container-dia ul div li");
 
     function mudarCor(item) {
@@ -74,6 +74,14 @@ async function mostrarAgendamento() {
     listaLi.forEach((item) => {
       item.addEventListener("click", mudarCor);
     });
+    const botaoEnviar = document.querySelectorAll("#negar");
+    const botaoAceitar = document.querySelectorAll("#agendamentoAceito");
+    for (const item of botaoEnviar) {
+      item.addEventListener("click", removerHora);
+    }
+    for (const item of botaoAceitar) {
+      item.addEventListener("click", aceitarAgendamento);
+    }
 
     async function removerHora(botao) {
       botao.preventDefault();
@@ -95,12 +103,12 @@ async function mostrarAgendamento() {
               body: JSON.stringify(informacoes),
             });
             const data = await requisicao.json();
-            botaoEnviar.innerHTML = data.msg;
+            botao.currentTarget.innerHTML = data.msg;
             setTimeout(() => {
               window.location.replace("/agendamentos");
             }, 2000);
           } catch (err) {
-            botaoEnviar.innerHTML = err;
+            botao.currentTarget.innerHTML = err;
           }
         }
       }
@@ -111,9 +119,8 @@ async function mostrarAgendamento() {
       const h2Element = document
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
-      listaLi.forEach(async (item) => {
+      for (const item of listaLi) {
         const tempoServico = document.querySelector(".tempoAtual").innerText;
-
         if (item.classList.contains("mudarCor")) {
           const informacoes = {
             dia: h2Element.textContent,
@@ -131,22 +138,16 @@ async function mostrarAgendamento() {
             });
             const data = await requisicao.json();
             const divStatus = document.querySelector(".div-status");
-            const negar = document.querySelector("#negar");
-            divStatus.removeChild(negar);
-            botaoAceitar.innerHTML = data.msg;
+            botao.currentTarget.innerHTML = data.msg;
             setTimeout(() => {
               window.location.replace("/agendamentos");
             }, 2000);
           } catch (err) {
-            botaoAceitar.innerHTML = err;
+            botao.currentTarget.innerHTML = err;
           }
         }
-      });
+      }
     }
-    const botaoEnviar = document.querySelector("#negar");
-    botaoEnviar.addEventListener("click", removerHora);
-    const botaoAceitar = document.querySelector("#agendamentoAceito");
-    botaoAceitar.addEventListener("click", aceitarAgendamento);
   } catch (err) {
     console.log(err);
   }

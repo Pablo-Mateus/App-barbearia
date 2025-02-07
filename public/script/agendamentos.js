@@ -24,7 +24,11 @@ async function mostrarAgendamento() {
       servico.innerText = `Servico: ${item.servico}`;
       const spanTempo = document.createElement("span");
       spanTempo.classList.add("tempoAtual");
-      spanTempo.innerHTML = item.horario;
+      const minutos = "minutos";
+      if (item.hora % 60 === 0) {
+        minutos = "horas";
+      }
+      spanTempo.innerHTML = `${item.horario} ${minutos}`;
       tempo.appendChild(spanTempo);
       const divTempo = document.createElement("span");
 
