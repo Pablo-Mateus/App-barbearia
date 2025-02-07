@@ -76,12 +76,6 @@ async function mostrarAgendamento() {
     });
     const botaoEnviar = document.querySelectorAll("#negar");
     const botaoAceitar = document.querySelectorAll("#agendamentoAceito");
-    for (const item of botaoEnviar) {
-      item.addEventListener("click", removerHora);
-    }
-    for (const item of botaoAceitar) {
-      item.addEventListener("click", aceitarAgendamento);
-    }
 
     async function removerHora(botao) {
       botao.preventDefault();
@@ -103,12 +97,12 @@ async function mostrarAgendamento() {
               body: JSON.stringify(informacoes),
             });
             const data = await requisicao.json();
-            botao.currentTarget.innerHTML = data.msg;
+            botao.target.innerHTML = data.msg;
             setTimeout(() => {
               window.location.replace("/agendamentos");
             }, 2000);
           } catch (err) {
-            botao.currentTarget.innerHTML = err;
+            botao.target.innerHTML = err;
           }
         }
       }
@@ -116,6 +110,7 @@ async function mostrarAgendamento() {
 
     async function aceitarAgendamento(botao) {
       botao.preventDefault();
+      console.log(botao.currentTarget);
       const h2Element = document
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
@@ -138,15 +133,21 @@ async function mostrarAgendamento() {
             });
             const data = await requisicao.json();
             const divStatus = document.querySelector(".div-status");
-            botao.currentTarget.innerHTML = data.msg;
+            botao.target.innerText = data.msg;
             setTimeout(() => {
               window.location.replace("/agendamentos");
             }, 2000);
           } catch (err) {
-            botao.currentTarget.innerHTML = err;
+            botao.target.innerHTML = err;
           }
         }
       }
+    }
+    for (const item of botaoEnviar) {
+      item.addEventListener("click", removerHora);
+    }
+    for (const item of botaoAceitar) {
+      item.addEventListener("click", aceitarAgendamento);
     }
   } catch (err) {
     console.log(err);

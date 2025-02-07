@@ -300,7 +300,7 @@ app.post("/removerHorario", async (req, res) => {
     let agendado = await Agendado.findOne({
       hora: req.body.hora,
     });
-    console.log(arrayFormatado);
+
     agendado.horarios = arrayFormatado;
     await agendado.save();
     const stringHora = arrayFormatado.toString();
