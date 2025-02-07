@@ -232,7 +232,7 @@ app.get("/disponiveis", verificarToken, async (req, res) => {
   try {
     const horarios = await Horario.findOne({ diaSemana: diaSemana });
 
-    if (!horarios) {
+    if (!horarios || horarios.horasTotais.length === 0) {
       return res
         .status(404)
         .json({ msg: "Nenhum horário disponível para este dia." });

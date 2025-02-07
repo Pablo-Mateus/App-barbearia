@@ -1,9 +1,10 @@
 const botao = document.querySelector(".botao");
 const resposta = document.querySelector(".resposta");
 const form = document.getElementById("formulario");
-
-
-
+const telefone = document.querySelector("#tel");
+telefone.addEventListener("input", (value) => {
+  
+});
 
 async function enviarDados(e) {
   e.preventDefault();

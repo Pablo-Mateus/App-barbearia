@@ -79,6 +79,7 @@ async function mostrarAgendamento() {
 
     async function removerHora(botao) {
       botao.preventDefault();
+      botao.target.innerHTML = "aguarde";
       const h2Element = document
         .querySelector("li.mudarCor")
         .closest("div").previousSibling;
@@ -110,6 +111,7 @@ async function mostrarAgendamento() {
 
     async function aceitarAgendamento(botao) {
       botao.preventDefault();
+      botao.target.innerHTML = "aguarde";
       console.log(botao.currentTarget);
       const h2Element = document
         .querySelector("li.mudarCor")
