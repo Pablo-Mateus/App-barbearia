@@ -32,11 +32,12 @@
       </div>
       <div>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email">
+        <input type="email" id="email" name="email" onblur="validarEmail(this)">
       </div>
       <div>
         <label for="tel">Telefone</label>
-        <input type="text" id="tel" name="tel" placeholder="(00) 00000-0000">
+        <input type="text" id="telefone" onblur="validarTelefone(this)" name="tel" placeholder="(00) 00000-0000" maxlength="15" oninput="aplicarMascara(this)">
+        <span id="erro-telefone"></span>
       </div>
       <div>
         <label for="password">Senha</label>
