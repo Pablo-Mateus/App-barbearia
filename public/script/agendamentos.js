@@ -14,31 +14,31 @@ async function mostrarAgendamento() {
       novoDia.textContent = `${diaFormat}/${mesFormat}/${item.ano}`;
       dia.appendChild(divContainer);
       divContainer.appendChild(novoDia);
-      const novaDiv = document.createElement("div");
+
       const novoLi = document.createElement("li");
       novoLi.classList.add("liHorario");
       const servico = document.createElement("h2");
       servico.classList.add("servico");
       const tempo = document.createElement("h2");
       tempo.classList.add("tempo");
-      servico.innerText = `Servico: ${item.servico}`;
+      servico.innerText = `Serviço: ${item.servico}`;
       const spanTempo = document.createElement("span");
       spanTempo.classList.add("tempoAtual");
-      const minutos = "minutos";
+
+      let minutos = "minutos";
       if (item.hora % 60 === 0) {
         minutos = "horas";
       }
       spanTempo.innerHTML = `${item.horario} ${minutos}`;
       tempo.appendChild(spanTempo);
       const divTempo = document.createElement("span");
-
       divTempo.innerText = "Tempo: ";
       tempo.insertAdjacentElement("afterBegin", divTempo);
       novoLi.textContent = item.hora;
-      divContainer.appendChild(novaDiv);
-      novaDiv.appendChild(novoLi);
+      divContainer.appendChild(novoLi);
       divContainer.appendChild(servico);
       divContainer.appendChild(tempo);
+
       const status = document.createElement("h2");
       if (item.status === "pendente") {
         status.innerText = "Status: Aguardando aceite";
@@ -49,6 +49,7 @@ async function mostrarAgendamento() {
       }
       divContainer.appendChild(status);
     });
+
     const listaLi = document.querySelectorAll(".container-dia ul div li");
 
     function mudarCor(item) {
@@ -96,6 +97,7 @@ async function mostrarAgendamento() {
         }
       });
     }
+
     const botaoEnviar = document.querySelector("#negar");
     botaoEnviar.addEventListener("click", removerHora);
   } catch (err) {

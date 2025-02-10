@@ -578,20 +578,91 @@ app.post("/criarAgendamento", async (req, res) => {
       from: `Suporte <${process.env.USER}>`,
       to: `${user.email}`,
       subject: `Agendamento ${req.cookies.Nome}`,
-      html: ` <h1 style="font-family:Arial; font-size: 1.2rem; font-weight:bold">Nome: <span>${
-        req.cookies.Nome[0].toUpperCase() + req.cookies.Nome.substring(1)
-      }</span></h1>
-            <h2 style="font-family:Arial; font-size: 1rem; font-weight:bold">Tipo de serviço: <span>${
-              req.body.servico
-            }</span></h2>
-            <h2 style="font-family:Arial; font-size: 1rem; font-weight:bold">Horário: <span>${
-              req.body.hora
-            }</span></h2>
-            <h2 style="font-family:Arial; font-size: 1rem; font-weight:bold">Data: <span>${diaFormat}/${mesString}/${ano}</span></h2>
-            <h3 style="font-family:Arial; font-size: 0.9rem; font-weight:bold">Telefone:<span> ${
-              user.phone
-            }</span></h3>
-            `,
+      html: `
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 20px;
+                color: #333;
+              }
+              .email-container {
+                max-width: 600px;
+                margin: auto;
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              }
+              .header {
+                text-align: center;
+                margin-bottom: 20px;
+              }
+              .header img {
+                width: 100px;
+                margin-bottom: 10px;
+              }
+              .header h1 {
+                font-size: 1.5rem;
+                color: #333;
+                margin: 0;
+              }
+              .content h2 {
+                font-size: 1.2rem;
+                color: #444;
+                margin-bottom: 10px;
+                font-weight: normal;
+              }
+              .content span {
+                font-size: 1.1rem;
+                font-weight: bold;
+                color: #333;
+              }
+              .footer {
+                text-align: center;
+                margin-top: 30px;
+                font-size: 0.8rem;
+                color: #888;
+              }
+              .footer a {
+                color: #333;
+                text-decoration: none;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="email-container">
+              <div class="header">
+                <img src="cid:logo" alt="Logo da Barbearia">
+                <h1>Agendamento Confirmado</h1>
+              </div>
+              <div class="content">
+                <h2>Nome: <span>${
+                  req.cookies.Nome[0].toUpperCase() +
+                  req.cookies.Nome.substring(1)
+                }</span></h2>
+                <h2>Tipo de Serviço: <span>${req.body.servico}</span></h2>
+                <h2>Horário: <span>${req.body.hora}</span></h2>
+                <h2>Data: <span>${diaFormat}/${mesString}/${ano}</span></h2>
+                <h3>Telefone: <span>${user.phone}</span></h3>
+              </div>
+              <div class="footer">
+                <p>Se você tiver alguma dúvida, entre em <a href="mailto:support@barbearia.com">contato conosco</a>.</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `,
+      attachments: [
+        {
+          filename: "Captura de tela 2024-09-02 141005 1LOGO.svg",
+          path: "public/IMG/Captura de tela 2024-09-02 141005 1LOGO.svg",
+          cid: "logo", // Referência para o logo no HTML
+        },
+      ],
     });
 
     const horaAgendada = new Agendado({

@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="css/agendar.css">
 </head>
 
-
-
 <body>
   <header class="container">
     <div class="header-menu">
@@ -23,24 +21,27 @@
       </div>
     </div>
   </header>
-  <h1 class="agendamento-titulo">Faça seu agendamento aqui</h1>
-  <div id="calendario">
-    <div id="navegacao">
-      <button id="prev">&lt; Anterior</button>
-      <span id="mes-ano"></span>
-      <button id="next">Próximo &gt;</button>
-    </div>
-    <div id="calendario-mes"></div>
-  </div>
 
-  </div>
+  <main class="main-container">
+    <h1 class="agendamento-titulo">Faça seu agendamento aqui</h1>
 
-  </div>
-  <div class="horas"></div>
-  <div class="botao-hora">
-    <a href="" id="data-hora">Selecionar data e hora <span class="loading"></span></a>
+    <section id="calendario" class="calendario">
+      <div id="navegacao" class="calendario-nav">
+        <button id="prev" class="btn-navegacao">&lt; Anterior</button>
+        <span id="mes-ano" class="mes-ano"></span>
+        <button id="next" class="btn-navegacao">Próximo &gt;</button>
+      </div>
+      <div id="calendario-mes" class="calendario-mes"></div>
+    </section>
 
-  </div>
+    <section class="horas-container">
+      <div class="horas"></div>
+      <div class="botao-hora">
+        <a href="#" id="data-hora" class="btn-agendar">Selecionar data e hora <span class="loading"></span></a>
+      </div>
+    </section>
+  </main>
+
   <script src="script/agendar.js"></script>
 </body>
 

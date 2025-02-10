@@ -27,25 +27,24 @@
     <h1>REGISTRE-SE</h1>
     <form id="formulario">
       <div>
-        <label for="name">Nome de usuário</label>
-        <input type="text" id="name" name="name">
+        <!-- <label for="name">Nome de usuário</label> -->
+        <input type="text" id="name" name="name" placeholder="Nome de usuário">
       </div>
       <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" onblur="validarEmail(this)">
+        <!-- <label for="email">Email</label> -->
+        <input type="email" id="email" name="email" onblur="validarEmail(this)" placeholder="Email">
       </div>
       <div>
-        <label for="tel">Telefone</label>
+        <!-- <label for="tel">Telefone</label> -->
         <input type="text" id="telefone" onblur="validarTelefone(this)" name="tel" placeholder="(00) 00000-0000" maxlength="15" oninput="aplicarMascara(this)">
         <span id="erro-telefone"></span>
       </div>
       <div>
-        <label for="password">Senha</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" placeholder="Senha">
       </div>
       <div>
-        <label for="confirmpassword">Confirmar senha</label>
-        <input type="password" id="confirmpassword" name="confirmpassword">
+        <!-- <label for="confirmpassword">Confirmar senha</label> -->
+        <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirmar senha">
       </div>
       <button class="botao" type="submit">Enviar</button>
       <ul class="observacao">

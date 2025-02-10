@@ -1,4 +1,4 @@
-.container {
+/* .container {
   max-width: 1200px;
   padding: 30px;
   margin: 0 auto;
@@ -262,4 +262,209 @@ a.forgotPass {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    padding: 15px;
+  }
+
+  .header-menu {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .imagem-logo img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .menu-barber ul {
+    flex-direction: column;
+    padding: 0;
+    gap: 5px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-barber ul li {
+    width: 100%;
+    text-align: center;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  form input {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  form button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+    background-color: #1e577a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .observacao {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+} */
+
+/* Estilo moderno e responsivo */
+body {
+  background-color: #f4f7fc;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 20px;
+}
+
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.imagem-logo img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.menu-barber ul {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-barber ul li {
+  background: #ffffff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.menu-barber ul li:hover {
+  background: #2a5298;
+  color: white;
+}
+
+.menu-barber ul li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #1e3c72;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+form {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 90%; /* Garantir que o formulário ocupe 90% da largura */
+  max-width: 400px; /* Limitar o tamanho máximo do formulário */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alinha os itens ao centro */
+}
+
+form label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+form input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  width: 100%; /* Faz os inputs ocuparem toda a largura disponível */
+  margin-top: 5px;
+  box-sizing: border-box; /* Inclui o padding dentro da largura */
+}
+
+form button {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  font-size: 1rem;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s;
+}
+
+form button:hover {
+  background: linear-gradient(135deg, #2a5298, #1e3c72);
+}
+
+.observacao {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 360px) {
+  .header-menu {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .menu-barber ul {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  form {
+    width: 95%;
+  }
 }

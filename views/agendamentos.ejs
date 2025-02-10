@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registre-se</title>
-  <link rel="stylesheet" href="/css/register.css">
+  <title>Meus Agendamentos</title>
+  <link rel="stylesheet" href="css/agendamentos.css">
 </head>
 
 <body>
   <header class="container">
     <div class="header-menu">
       <div class="imagem-logo">
-        <a href="/logado"><img src="IMG/Captura de tela 2024-09-02 141005 1LOGO.svg" alt=""></a>
+        <a href="/logado"><img src="IMG/Captura de tela 2024-09-02 141005 1LOGO.svg" alt="Logo"></a>
       </div>
       <div class="menu-barber">
         <ul>
@@ -21,19 +21,20 @@
       </div>
     </div>
   </header>
-  <main>
 
-    <h1>Meus agendamentos</h1>
-    <div id="container-dia">
-      <div class="container-dia">
-        <ul id="dia"></ul>
+  <main>
+    <div class="content-wrapper">
+      <h1 class="title">Meus Agendamentos</h1>
+      <div id="container-dia" class="agendamento-container">
+        <ul id="dia" class="agendamentos-list"></ul>
+      </div>
+      <div class="cancelar-container">
+        <a href="#" id="negar" class="btn-cancelar">Selecione horário para cancelar agendamento<span class="loading"></span></a>
       </div>
     </div>
-    <div>
-      <a href="" id="negar">Selecione horário para cancelar agendamento<span class="loading"></span></a>
-    </div>
+  </main>
 
-    <script src="script/agendamentos.js"></script>
+  <script src="script/agendamentos.js"></script>
 </body>
 
 </html>
