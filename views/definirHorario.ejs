@@ -22,7 +22,7 @@
       </div>
     </div>
   </header>
-  <main>
+  <!-- <main class="desktop">
     <h1>Selecione os horários para a semana</h1>
     <form id="formulario">
 
@@ -102,6 +102,39 @@
       <button class="botao" type="submit">Enviar</button>
     </form>
 
+  </main> -->
+
+  <main class="mobile">
+    <h1>Selecione os horários para a semana</h1>
+    <form id="formulario">
+      <div>
+        <label>Selecione o dia:</label>
+        <select name="" id="dias">
+          <option value="Segunda">Segunda</option>
+          <option value="Terca">Terça</option>
+          <option value="Quarta">Quarta</option>
+          <option value="Quinta">Quinta</option>
+          <option value="Sexta">Sexta</option>
+          <option value="Sabado">Sábado</option>
+          <option value="Domingo">Domingo</option>
+        </select>
+        <div class="group">
+          <label for="">INICIO</label>
+          <select class="segunda inicio-segunda">
+          </select>
+        </div>
+        <div class="group">
+          <label for="">FIM</label>
+          <select class="segunda fim-segunda">
+          </select>
+        </div>
+        <div class="group">
+          <label for="">INTERVALO</label>
+          <select id="minutos" class="segunda intervalo-segunda">
+          </select>
+        </div>
+        <button class="botao" type="submit">Enviar</button>
+    </form>
 
   </main>
 

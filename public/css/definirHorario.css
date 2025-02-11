@@ -1,9 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+body {
+  background-color: #f4f7fc;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
-  max-width: 1200px;
-  padding: 30px;
-  margin: 0 auto;
+  padding: 20px;
+}
+
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  padding: 15px;
+  border-radius: 8px;
 }
 
 .group {
@@ -18,46 +33,36 @@
   font-size: 1.2rem;
 }
 
-a {
-  text-decoration: none;
-  color: #fff;
-}
-
 .menu-barber ul {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .menu-barber ul li {
-  font-family: Arial;
-  font-size: 1rem;
+  background: #ffffff;
+  padding: 10px 15px;
+  border-radius: 8px;
   font-weight: bold;
+  transition: all 0.3s;
+}
+.menu-barber ul li:hover {
+  background: #2a5298;
   color: white;
-  padding: 10px;
-  background-color: #0b2230;
-  border-radius: 5px;
 }
 
 .menu-barber ul li a {
-  padding: 5px;
-}
-
-.header-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #1e577a;
-  padding: 20px;
-  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .imagem-logo img {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
   object-fit: cover;
-  border: 3px solid #49b4f5;
 }
 
 main {
@@ -67,23 +72,14 @@ main {
   justify-content: center;
 }
 
-body {
-  background-color: #3c99d2;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-}
-
 h1 {
   justify-self: center;
   align-self: start;
   font-family: Arial;
-  color: #fff;
 }
 
 form {
-  background: #59c0ff;
+  background: #515151;
   width: 90%;
   max-width: 1200px;
   margin: 150px;
@@ -112,8 +108,7 @@ form select {
   border-radius: 5px;
   width: 120px;
   font-size: 1.2rem;
-  border: 1px solid #6dc8ff;
-  box-shadow: #3799d4 1px 2px;
+  border: 1px solid #000;
   height: 50px;
 }
 
@@ -122,16 +117,6 @@ form label {
   font-weight: 700;
   color: #fff;
   font-size: 1.5rem;
-}
-
-form button {
-  margin-top: 50px;
-  border: 1px solid #11374e;
-  background-color: #3799d4;
-  padding: 10px;
-  border-radius: 5px;
-  width: 300px;
-  grid-column: span 6;
 }
 
 form div {
@@ -143,11 +128,6 @@ form div {
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
-}
-
-ul {
-  padding: 0px;
-  margin: 0px;
 }
 
 #diasDisponiveis li {
@@ -263,4 +243,57 @@ ul #dia {
   font-weight: bold;
   color: #fff;
   font-size: 1rem;
+  background-color: #494d55;
+  border: 1px solid #000;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 300px;
+  grid-column: span 7;
+}
+
+.botao:hover {
+  background-color: #424854;
+}
+
+#mobile#formulario div {
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  .header-menu {
+    align-items: center;
+    text-align: center;
+  }
+
+  .menu-barber ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 20px;
+  }
+
+  form div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  form select {
+    width: 100%;
+    max-width: 200px;
+    height: max-content;
+  }
+
+  .botao {
+    width: 100%;
+    max-width: 200px;
+  }
 }

@@ -5,36 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clientes</title>
-  <link rel="stylesheet" href="/css/register.css">
+  <link rel="stylesheet" href="css/clientes.css">
 </head>
 
 <body>
   <header class="container">
     <div class="header-menu">
       <div class="imagem-logo">
-        <a href="/logado"><img src="IMG/Captura de tela 2024-09-02 141005 1LOGO.svg" alt=""></a>
+        <a href="/logado"><img src="IMG/Captura de tela 2024-09-02 141005 1LOGO.svg" alt="Logo"></a>
       </div>
       <div class="menu-barber">
         <ul>
           <li><a href="/logout">Sair</a></li>
-          <li><a href="/definirHorario">Definir horário</a></li>
         </ul>
       </div>
     </div>
   </header>
+
   <main>
-
-    <h1>Agendamentos da semana</h1>
-    <div id="container-dia">
-      <div class="container-dia">
-        <ul id="dia"></ul>
+    <div class="content-wrapper">
+      <h1 class="title">Clientes</h1>
+      <div id="container-dia" class="agendamento-container">
+        <ul id="dia" class="agendamentos-list"></ul>
       </div>
+  
     </div>
-    <div class="div-status">
+  </main>
 
-    </div>
-
-    <script src="script/clientes.js"></script>
+  <script src="script/clientes.js"></script>
 </body>
 
 </html>

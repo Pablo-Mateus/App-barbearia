@@ -61,7 +61,8 @@ async function mostrarAgendamento() {
         divStatus.appendChild(aceitar);
       }
     }
-    const listaLi = document.querySelectorAll(".container-dia ul div li");
+    const listaLi = document.querySelectorAll("#container-dia ul div li");
+
 
     function mudarCor(item) {
       const li = item.currentTarget;
