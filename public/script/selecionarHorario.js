@@ -29,7 +29,7 @@ selectMinutos.forEach((item) => {
 });
 
 select.forEach((item) => {
-  if (item.id !== "minutos") {
+  if (item.id !== "minutos" && item.id !== "dias") {
     for (let i = 0; i < 24; i++) {
       let hora = i.toString().padStart(2, "0"); // Garante dois dígitos (ex: "01", "02", etc.)
       let option = document.createElement("option");

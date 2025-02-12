@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
+html,
 body {
-  background-color: #f4f7fc;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
   font-family: "Poppins", sans-serif;
   color: #333;
-  margin: 0;
-  padding: 0;
 }
 
 .container {
@@ -261,7 +262,32 @@ ul #dia {
   margin: 0 auto;
 }
 
+.mobile {
+  display: none;
+}
+
+footer {
+  background-color: #2a5298;
+  padding: 20px 0;
+  text-align: center;
+  color: white;
+  text-align: center;
+}
+
+.footer-bg h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  margin: 0;
+}
+
 @media screen and (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
   .header-menu {
     align-items: center;
     text-align: center;
