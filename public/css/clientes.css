@@ -1,9 +1,42 @@
+html,
 body {
-  background-color: #f4f7fc;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
   font-family: "Poppins", sans-serif;
   color: #333;
+}
+
+main {
+  flex: 1; /* Faz com que o conteúdo principal ocupe o espaço disponível */
+}
+
+footer {
+  background-color: #2a5298;
+  padding: 20px 0;
+  text-align: center;
+  color: white;
+}
+
+.footer-bg {
+  background-color: #2a5298;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-bg h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  color: #fff;
   margin: 0;
-  padding: 0;
+}
+
+ul#dia {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
 }
 
 .container {
@@ -136,8 +169,7 @@ body {
   color: #444;
 }
 
-#negar,
-#agendamentoAceito {
+#negar {
   display: inline-block;
   padding: 12px 25px;
   background-color: #ff4f4f;
@@ -148,4 +180,33 @@ body {
   transition: background-color 0.3s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-left: 5px;
+}
+
+#negar:hover {
+  background-color: #db1616;
+}
+
+#agendamentoAceito {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 5px;
+}
+
+#agendamentoAceito:hover {
+  background-color: #0169d8;
+}
+
+@media (max-width: 500px) {
+  .div-status {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 }

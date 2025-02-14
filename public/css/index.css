@@ -19,6 +19,12 @@ footer {
   color: white;
 }
 
+.footer-bg {
+  background-color: #2a5298;
+  padding: 20px 0;
+  text-align: center;
+}
+
 .container {
   padding: 20px;
 }
@@ -140,12 +146,6 @@ footer {
   cursor: pointer;
   transition: background-color 0.3s;
   font-size: 0.9em; /* Ajusta o tamanho da fonte nos botões */
-}
-
-.footer-bg {
-  background-color: #2a5298;
-  padding: 20px 0;
-  text-align: center;
 }
 
 .footer-bg h1 {

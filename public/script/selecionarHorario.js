@@ -9,6 +9,8 @@ const sabado = document.querySelectorAll(".sabado");
 const domingo = document.querySelectorAll(".domingo");
 const select = document.querySelectorAll("select");
 const selectMinutos = document.querySelectorAll("#minutos");
+const mainDesktop = document.querySelector(".desktop");
+const mainMobile = document.querySelector(".mobile");
 const diasSemana = [
   "segunda",
   "terca",

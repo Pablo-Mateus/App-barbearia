@@ -108,13 +108,10 @@ app.post("/aceitarAgendamento", async (req, res) => {
   }
 });
 
-app.get("/definirHorario", (req, res) => {
+app.get("/definirHorario", verificarToken, (req, res) => {
   const token = req.cookies.token;
-  if (!token) {
-    res.redirect("/login");
-  }
-
   const decoded = jwt.verify(token, process.env.SECRET);
+
   if (decoded.id === "felipe@gmail.com") {
     res.render("definirHorario");
   }
