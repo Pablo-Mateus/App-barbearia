@@ -52,8 +52,6 @@ button {
   font-size: 0.9em; /* Ajusta o tamanho da fonte nos botões */
 }
 
-
-
 button:hover {
   background-color: #16333d; /* Um tom mais escuro no hover */
 }
@@ -109,6 +107,7 @@ button:hover {
   color: #fff;
   max-width: max-content;
   margin: 0 auto;
+  margin-bottom: 5px;
 }
 
 .observacao {
