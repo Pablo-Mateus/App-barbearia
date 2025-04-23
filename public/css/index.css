@@ -155,17 +155,35 @@ footer {
   margin: 0;
 }
 
+#menu-hamburguer div {
+  width: 30px;
+  height: 3px;
+  background-color: #fff;
+  margin: 3px;
+  display: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 /* Responsividade */
-@media (max-width: 360px) {
+@media (max-width: 900px) {
   .header-menu {
-    flex-direction: column;
-    text-align: center;
+    justify-items: space-between;
   }
 
+
+
+  .menu-barber {
+    display: none;
+  }
   .menu-barber ul {
     flex-direction: column;
     width: 100%;
     align-items: center;
+  }
+
+  #menu-hamburguer div {
+    display: block;
   }
 
   .imagem-logo img {
